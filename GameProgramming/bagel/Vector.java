@@ -39,6 +39,7 @@ public class Vector
      *
      * @return vector data encoded in a string
      */
+    @Override
     public String toString()
     {
         return "(" + x + " , " + y + ")";
