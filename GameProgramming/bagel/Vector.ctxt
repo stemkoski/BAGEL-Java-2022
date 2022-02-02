@@ -4,12 +4,15 @@ comment0.text=\r\n\ Store\ a\ two-dimensional\ vector\ (x,\ y).\r\n\r\n\ @author
 comment1.params=
 comment1.target=Vector()
 comment1.text=\r\n\ Vector\ Constructor;\ initializes\ vector\ to\ (x,\ y)\ \=\ (0,\ 0).\r\n\r\n
+comment10.params=other
+comment10.target=boolean\ equals(Vector)
+comment10.text=\r\n\ Check\ if\ this\ vector\ is\ equal\ to\ another\ vector\:\r\n\ \ \ coordinates\ are\ within\ 0.0000001\ of\ each\ other.\r\n\ \ \ \r\n\ @param\ other\ other\ vector\ to\ check\ for\ equality\r\n\ @return\ true/false\ (whether\ vectors\ are\ equal)\r\n
 comment2.params=a\ b
 comment2.target=Vector(double,\ double)
 comment2.text=\r\n\ Vector\ Constructor;\ initializes\ vector\ to\ (x,\ y)\ \=\ (a,\ b).\r\n\r\n\ @param\ a\ initial\ x\ value\r\n\ @param\ b\ initial\ y\ value\r\n
 comment3.params=
 comment3.target=java.lang.String\ toString()
-comment3.text=\r\n\ Convert\ vector\ data\ to\ string\ format\ "(\ x\ ,\ y\ )".\r\n\r\n\ @return\ vector\ data\ encoded\ in\ a\ string\r\n
+comment3.text=\r\n\ Convert\ vector\ data\ to\ string\ format\ "(\ x\ ,\ y\ )";\ \r\n\ \ round\ each\ coordinate\ to\ three\ decimal\ places.\r\n\r\n\ @return\ vector\ data\ encoded\ in\ a\ string\r\n
 comment4.params=
 comment4.target=double\ getLength()
 comment4.text=\r\n\ Calculate\ the\ length\ of\ this\ vector.\r\n\r\n\ @return\ the\ length\ of\ this\ vector\r\n
@@ -28,4 +31,4 @@ comment8.text=\r\n\ Change\ the\ angle\ of\ this\ vector,\r\n\ \ \ while\ keepin
 comment9.params=a\ b
 comment9.target=void\ addValues(double,\ double)
 comment9.text=\r\n\ Add\ the\ values\ (a,\ b)\ to\ the\ current\ position\ (x,\ y).\r\n\r\n\ @param\ a\ the\ value\ to\ add\ to\ x\r\n\ @param\ b\ the\ value\ to\ add\ to\ y\r\n
-numComments=10
+numComments=11

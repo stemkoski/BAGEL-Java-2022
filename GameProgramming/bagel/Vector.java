@@ -35,14 +35,18 @@ public class Vector
     }
 
     /**
-     * Convert vector data to string format "( x , y )".
+     * Convert vector data to string format "( x , y )"; 
+     *  round each coordinate to three decimal places.
      *
      * @return vector data encoded in a string
      */
     @Override
     public String toString()
     {
-        return "(" + x + " , " + y + ")";
+        double rx = Math.round(1000.0 * x) / 1000.0;
+        double ry = Math.round(1000.0 * y) / 1000.0;
+        
+        return "(" + rx + " , " + ry + ")";
     }
     
     /**
@@ -120,7 +124,27 @@ public class Vector
         y += b;
     }
     
-    
+    /**
+     * Check if this vector is equal to another vector:
+     *   coordinates are within 0.0000001 of each other.
+     *   
+     * @param other other vector to check for equality
+     * @return true/false (whether vectors are equal)
+     */
+    public boolean equals(Vector other)
+    {
+        // can't use this, because rounding errors
+        //   may cause unexpected results.
+        // return (x == other.x && y == other.y);
+        
+        // instead, check how close the coordinates are.
+        double dx = Math.abs(x - other.x);
+        double dy = Math.abs(y - other.y);
+        
+        // equal means "very very close"
+        return (dx < 0.0000001 && dy < 0.0000001);
+        
+    }
     
     
 }

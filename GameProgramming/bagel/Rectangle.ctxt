@@ -1,0 +1,16 @@
+#BlueJ class context
+comment0.target=Rectangle
+comment0.text=\r\n\ Rectangles\ store\ position\ and\ size;\ used\ to\ check\ overlap\ between\ sprites.\r\n
+comment1.params=
+comment1.target=Rectangle()
+comment1.text=\r\n\ Rectangle\ Constructor\:\ sets\ default\ values\ to\ a\ 1x1\ rectangle,\r\n\ \ \ top-left\ corner\ at\ (0,0).\r\n\r\n
+comment2.params=x\ y\ w\ h
+comment2.target=Rectangle(double,\ double,\ double,\ double)
+comment2.text=\r\n\ Rectangle\ Constructor;\ sets\ position\ of\ top-left\ corner\ to\ (x,y)\r\n\ \ \ and\ the\ size\ to\ w\ by\ h.\r\n\r\n\ @param\ x\ coordinate\ for\ left\ side\r\n\ @param\ y\ coordinate\ for\ top\ side\r\n\ @param\ w\ width\r\n\ @param\ h\ height\r\n
+comment3.params=x\ y
+comment3.target=void\ setPosition(double,\ double)
+comment3.text=\r\n\ Update\ the\ position\ of\ this\ rectangle\r\n\r\n\ @param\ x\ coordinate\ of\ left\ side\r\n\ @param\ y\ coordinate\ of\ top\ side\r\n
+comment4.params=other
+comment4.target=boolean\ overlap(Rectangle)
+comment4.text=\r\n\ Check\ if\ this\ rectangle\ overlaps\ another\ rectangle.\r\n\r\n\ @param\ other\ other\ rectangle\ to\ check\ for\ overlap\r\n\ @return\ true\ if\ rectangles\ overlap\r\n
+numComments=5
