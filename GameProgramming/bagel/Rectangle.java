@@ -41,8 +41,8 @@ public class Rectangle
     /**
      * Update the position of this rectangle
      *
-     * @param x coordinate of left side
-     * @param y coordinate of top side
+     * @param x new coordinate of left side
+     * @param y new coordinate of top side
      */
     public void setPosition(double x, double y)
     {
