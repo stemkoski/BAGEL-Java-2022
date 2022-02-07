@@ -1,0 +1,7 @@
+#BlueJ class context
+comment0.target=Texture
+comment0.text=\r\n\ Stores\ an\ image\ and\ a\ rectangle\ to\ specify\ the\ region\ of\ the\ image\ to\ draw.\r\n
+comment1.params=imageFileName
+comment1.target=Texture(java.lang.String)
+comment1.text=\r\n\ Create\ a\ texture;\ default\ region\ to\ draw\ is\ entire\ image.\r\n\r\n\ @param\ imageFileName\ name\ of\ the\ image\ file\ to\ load\r\n
+numComments=2

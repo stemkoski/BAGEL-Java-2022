@@ -49,7 +49,17 @@ public class Rectangle
         position.setValues(x, y);
     }
     
-    // TODO: setSize? (might be useful for complicated games)
+    /**
+     * Set size of this rectangle
+     *
+     * @param w new width of rectangle
+     * @param h new height of rectangle
+     */
+    public void setSize(double w, double h)
+    {
+        width = w;
+        height = h;
+    }
     
     
     /**

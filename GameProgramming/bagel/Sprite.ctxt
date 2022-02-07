@@ -1,0 +1,19 @@
+#BlueJ class context
+comment0.target=Sprite
+comment0.text=\r\n\ Represents\ the\ game\ entities\ displayed\ on\ the\ screen;\r\n\ \ can\ move\ and\ interact\ with\ each\ other.\r\n
+comment1.params=
+comment1.target=Sprite()
+comment1.text=\r\n\ Sprite\ Constructor;\ initializes\ to\ position\ (0,0).\r\n\r\n
+comment2.params=x\ y
+comment2.target=Sprite(double,\ double)
+comment2.text=\r\n\ Sprite\ Constructor;\ initializes\ position\ to\ (x,y).\r\n\r\n\ @param\ x\ x\ coordinate\ of\ top-left\ corner\r\n\ @param\ y\ y\ coordinate\ of\ top-left\ corner\r\n
+comment3.params=x\ y
+comment3.target=void\ setPosition(double,\ double)
+comment3.text=\r\n\ Update\ the\ position\ of\ this\ sprite.\ \r\n\ Automatically\ updates\ position\ of\ rectangle\ bounds.\r\n\r\n\ @param\ x\ new\ x\ coordinate\r\n\ @param\ y\ new\ y\ coordinate\r\n
+comment4.params=width\ height
+comment4.target=void\ setSize(double,\ double)
+comment4.text=\r\n\ Update\ the\ size\ of\ this\ sprite.\ Used\ for\ collision\ detection.\r\n\ By\ default,\ size\ of\ sprite\ is\ size\ of\ texture\ image\ region.\r\n\r\n\ @param\ width\ size\ along\ x\ direction\r\n\ @param\ height\ size\ along\ y\ direction\r\n
+comment5.params=tex
+comment5.target=void\ setTexture(Texture)
+comment5.text=\r\n\ Set\ the\ texture\ data\ used\ for\ drawing\ this\ sprite\ in\ the\ game\r\n\r\n\ @param\ tex\ previously\ created\ texture\ object,\ containing\ an\ image\r\n
+numComments=6
