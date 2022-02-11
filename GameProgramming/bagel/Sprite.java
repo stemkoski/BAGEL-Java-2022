@@ -1,5 +1,6 @@
 package bagel;
 
+import javafx.scene.canvas.*;
 
 /**
  * Represents the game entities displayed on the screen;
@@ -75,4 +76,33 @@ public class Sprite
         // by default, set rectangle size to image size
         size.setSize( tex.region.width, tex.region.height );
     }
+    
+    /**
+     * Draw the image contained in this sprite, 
+     *   at the position stored in this sprite,
+     *   with the size stored in the rectangle in this sprite.
+     *
+     * @param context The context object attached to the canvas in the window where the game will appear.
+     */
+    public void draw(GraphicsContext context)
+    {
+        context.drawImage( texture.image, position.x, position.y, size.width, size.height ); 
+    }
+    
+    /**
+     * Move the sprite's position (x, y) by adding the given amounts.
+     *
+     * @param xAmount amount to add to x-coordinate of position
+     * @param yAmount amount to add to y-coordinate of position
+     */
+    public void moveBy(double xAmount, double yAmount)
+    {
+        position.addValues(xAmount, yAmount);
+    }
+    
+    
+    
+    
+    
+    
 }
