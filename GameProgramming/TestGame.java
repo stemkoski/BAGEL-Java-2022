@@ -33,6 +33,8 @@ public class TestGame extends Game
     public void update()
     {
         turtle.moveBy(2,1);
+        
+        
     }
     
     public static void main(String[] args)
