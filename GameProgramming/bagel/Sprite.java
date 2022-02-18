@@ -100,7 +100,17 @@ public class Sprite
         position.addValues(xAmount, yAmount);
     }
     
-    
+    /**
+     * Check if this sprite overlaps another sprite
+     *   by checking if this sprite's rectangle overlaps other sprite's rectangle.
+     *
+     * @param other the other sprite to check for overlap with
+     * @return true, if sprites overlap
+     */
+    public boolean overlap(Sprite other)
+    {
+        return this.size.overlap( other.size );
+    }
     
     
     

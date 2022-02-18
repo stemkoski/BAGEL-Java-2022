@@ -21,6 +21,9 @@ public abstract class Game extends Application
     // list of sprites
     public ArrayList<Sprite> spriteList;
     
+    // Input object to store keyboard inputs
+    public Input input;
+    
     // game-specific code to initialize sprite objects
     //  abstract method: code MUST be added by an extending class
     public abstract void initialize();
@@ -45,6 +48,11 @@ public abstract class Game extends Application
         // create a list to store sprites
         spriteList = new ArrayList<Sprite>();
 
+        // initialize the Input object; 
+        //  window containing mainScene must have focus
+        //  to register input
+        input = new Input( mainScene );
+        
         // create the loop that runs 60 times per second
         AnimationTimer gameloop = new AnimationTimer()
             {
@@ -54,6 +62,9 @@ public abstract class Game extends Application
                     // refresh canvas by making all pixels
                     //   a solid color (black)
                     context.fillRect(0,0, 800,600);
+                    
+                    // update input key lists
+                    input.update();
                     
                     update();
                     

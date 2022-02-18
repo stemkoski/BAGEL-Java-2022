@@ -3,8 +3,6 @@ import java.util.ArrayList;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 
-
-
 /**
  * Handle keyboard input:
  *  keyPressed   - happens one time when you press a key (discrete / instant)
@@ -70,7 +68,42 @@ public class Input
      */
     public void update()
     {
+        // any keys which were previously pressed/released,
+        //   only true for one loop after update function called,
+        //   so now is the time to clear those lists
+        pressedList.clear();
+        releasedList.clear();
         
+        // update the lists, based on key names stored in queues
+        for (String keyName : pressQueue)
+        {
+            // prevent duplicate key names in lists;
+            //   holding down a key can trigger multiple keyPress events
+            // continue: immediately skips to next element in loop
+            if (pressingList.contains(keyName))
+                continue;
+                
+            pressedList.add(keyName);
+            pressingList.add(keyName);
+        }
+        
+        // done with press queue; clear: remove all elements from queue
+        pressQueue.clear();
+        
+        for (String keyName : releaseQueue)
+        {
+            pressingList.remove(keyName);
+            releasedList.add(keyName);
+        }
+        
+        releaseQueue.clear();
+        
+        /* // the above for loop is equivalent to this code: 
+        for (int i = 0; i < pressQueue.size(); i++)
+        {
+            String keyName = pressQueue.get(i);
+        }
+        */
     }
     
     /**
