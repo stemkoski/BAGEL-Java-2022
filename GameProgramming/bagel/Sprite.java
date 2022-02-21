@@ -9,12 +9,13 @@ import javafx.scene.canvas.*;
 public class Sprite
 {
     public Vector position;
-    
+
     public Rectangle size;
-    
+
     public Texture texture;
-    
-    
+
+    public boolean visible;
+
     /**
      * Sprite Constructor; initializes to position (0,0).
      *
@@ -25,8 +26,10 @@ public class Sprite
         size = new Rectangle();
         // make rectangle share same position data as this sprite
         size.position = position;
+        // by default, all sprites are visible
+        visible = true;
     }
-    
+
     /**
      * Sprite Constructor; initializes position to (x,y).
      *
@@ -39,8 +42,10 @@ public class Sprite
         size = new Rectangle();
         // make rectangle share same position data as this sprite
         size.position = position;
+        // by default, all sprites are visible
+        visible = true;
     }
-    
+
     /**
      * Update the position of this sprite. 
      * Automatically updates position of rectangle bounds.
@@ -52,7 +57,7 @@ public class Sprite
     {
         position.setValues(x,y);
     }
-    
+
     /**
      * Update the size of this sprite. Used for collision detection.
      * By default, size of sprite is size of texture image region.
@@ -64,7 +69,7 @@ public class Sprite
     {
         size.setSize(width, height);
     }
-    
+
     /**
      * Set the texture data used for drawing this sprite in the game
      *
@@ -76,7 +81,17 @@ public class Sprite
         // by default, set rectangle size to image size
         size.setSize( tex.region.width, tex.region.height );
     }
-    
+
+    /**
+     * Set visibility of this sprite, which determines whether it appears on the screen.
+     *
+     * @param vis should this sprite be visible?
+     */
+    public void setVisible(boolean vis)
+    {
+        visible = vis;
+    }
+
     /**
      * Draw the image contained in this sprite, 
      *   at the position stored in this sprite,
@@ -86,9 +101,12 @@ public class Sprite
      */
     public void draw(GraphicsContext context)
     {
-        context.drawImage( texture.image, position.x, position.y, size.width, size.height ); 
+        if (visible)
+        {
+            context.drawImage( texture.image, position.x, position.y, size.width, size.height ); 
+        }
     }
-    
+
     /**
      * Move the sprite's position (x, y) by adding the given amounts.
      *
@@ -99,7 +117,7 @@ public class Sprite
     {
         position.addValues(xAmount, yAmount);
     }
-    
+
     /**
      * Check if this sprite overlaps another sprite
      *   by checking if this sprite's rectangle overlaps other sprite's rectangle.
@@ -111,8 +129,6 @@ public class Sprite
     {
         return this.size.overlap( other.size );
     }
-    
-    
-    
+
     
 }

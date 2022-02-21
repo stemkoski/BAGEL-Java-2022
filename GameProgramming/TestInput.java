@@ -1,9 +1,13 @@
 import bagel.*;
+import java.util.ArrayList;
 
 public class TestInput extends Game
 {
     public Sprite turtle;
     public Sprite star;
+    public Sprite youwin;
+    
+    public ArrayList<Sprite> starfishList;
     
     public void initialize()
     {
@@ -17,10 +21,30 @@ public class TestInput extends Game
         star.setPosition( 400, 300 );
         spriteList.add(star);
         
+        starfishList = new ArrayList<Sprite>();
+        int starCount = 100;
+        for (int i = 0; i < starCount; i++)
+        {
+            Sprite starfish = new Sprite();
+            starfish.setTexture( new Texture("starfish.png") );
+            double x = Math.random() * 800;
+            double y = Math.random() * 600;
+            starfish.setPosition(x, y);
+            starfishList.add(starfish);
+            spriteList.add(starfish);
+        }
+        
         turtle = new Sprite();
         turtle.setTexture( new Texture("turtle.png") );
         turtle.setPosition(0,0);
         spriteList.add( turtle );
+        
+        youwin = new Sprite();
+        youwin.setTexture( new Texture("youwin.png") );
+        youwin.setPosition(200, 250);
+        // this message should not be visible when the game starts
+        youwin.setVisible( false );
+        spriteList.add( youwin );
     }
     
     public void update()
@@ -37,7 +61,16 @@ public class TestInput extends Game
         // if turtle overlaps star, you win the game!
         if ( turtle.overlap(star) )
         {
-            System.out.println("You Win!");
+            star.setVisible( false );
+            youwin.setVisible( true );
+        }
+        
+        System.out.println( "Starfish left: " + starfishList.size() );
+        
+        for (Sprite s : starfishList)
+        {
+            if (turtle.overlap(s))
+                s.setVisible(false);
         }
     }
     
