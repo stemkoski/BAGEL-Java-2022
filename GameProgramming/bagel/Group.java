@@ -10,12 +10,17 @@ public class Group
     // only allow interaction with list via group methods
     private ArrayList<Sprite> spriteList;
     
+    // identify this group by a name
+    public String name;
+    
     /**
      * Constructor; initialize underlying list.
+     * @param groupName the name of this group; used to identify group in the game class.
      */
-    public Group()
+    public Group(String groupName)
     {
         spriteList = new ArrayList<Sprite>();
+        name = groupName;
     }
     
     /**
@@ -54,7 +59,7 @@ public class Group
      *
      * @return the list of sprites
      */
-    public ArrayList<Sprite> getList()
+    public ArrayList<Sprite> getSpriteList()
     {
         return spriteList;
     }

@@ -1,9 +1,9 @@
 #BlueJ class context
 comment0.target=Group
 comment0.text=\r\n\ Manage\ a\ collection\ of\ Sprites.\r\n
-comment1.params=
-comment1.target=Group()
-comment1.text=\r\n\ Constructor;\ initialize\ underlying\ list.\r\n
+comment1.params=groupName
+comment1.target=Group(java.lang.String)
+comment1.text=\r\n\ Constructor;\ initialize\ underlying\ list.\r\n\ @param\ groupName\ the\ name\ of\ this\ group;\ used\ to\ identify\ group\ in\ the\ game\ class.\r\n
 comment2.params=s
 comment2.target=void\ addSprite(Sprite)
 comment2.text=\r\n\ Add\ a\ sprite\ to\ this\ collection.\r\n\r\n\ @param\ s\ sprite\ to\ be\ added\r\n
@@ -14,6 +14,6 @@ comment4.params=
 comment4.target=int\ getSpriteCount()
 comment4.text=\r\n\ Return\ the\ number\ of\ sprites\ in\ this\ collection.\r\n\r\n\ @return\ the\ number\ of\ sprites\r\n
 comment5.params=
-comment5.target=java.util.ArrayList\ getList()
+comment5.target=java.util.ArrayList\ getSpriteList()
 comment5.text=\r\n\ Return\ the\ underlying\ list,\ useful\ when\ iterating\ (for\ loop)\r\n\ \ \ over\ a\ collection\ of\ sprites.\r\n\r\n\ @return\ the\ list\ of\ sprites\r\n
 numComments=6

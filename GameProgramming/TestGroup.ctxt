@@ -1,0 +1,10 @@
+#BlueJ class context
+comment0.target=TestGroup
+comment0.text=\r\n\ Write\ a\ game\ that\ tests\ the\ new\ group\ class\ and\ methods.\r\n
+comment1.params=
+comment1.target=void\ initialize()
+comment2.params=
+comment2.target=void\ update()
+comment3.params=args
+comment3.target=void\ main(java.lang.String[])
+numComments=4

@@ -18,8 +18,97 @@ public abstract class Game extends Application
         
     }
     
-    // list of sprites
-    public ArrayList<Sprite> spriteList;
+    // list of groups, each of which contains a list of sprites 
+    //   (to stay organized)
+    public ArrayList<Group> groupList;
+    
+    // methods for interacting with groups
+    
+    /**
+     * Create a new group, and add it to the list of all groups.
+     *
+     * @param groupName the name of the group
+     */
+    public void createGroup(String groupName)
+    {
+        Group g = new Group(groupName);
+        groupList.add(g);
+    }
+    
+    /**
+     * Get the group with the given name from the list of all groups.
+     *
+     * @param groupName the name of the group
+     * @return the group with the given name
+     */
+    public Group getGroup(String groupName)
+    {
+        for (Group g : groupList)
+        {
+            if ( g.name.equals(groupName) )
+                return g;
+        }
+        
+        // if this line is reached, there is no group with that name
+        
+        // option 1: print message in Java console
+        // System.out.println("There is no group with the name: " + groupName);
+
+        // option 2: print message as an error (red font)
+        // System.err.println("There is no group with the name: " + groupName);
+
+        // option 3: print error and stop program (throw Exception)
+        throw new RuntimeException("There is no group with the name: " + groupName);
+    }
+    
+    /**
+     * Add a sprite to the group with the given name.
+     *
+     * @param sprite sprite to be added
+     * @param groupName name of the group to add the sprite to
+     */
+    public void addSpriteToGroup(Sprite sprite, String groupName)
+    {
+        // Group g = getGroup( groupName );
+        // g.addSprite( sprite );
+        
+        // or, more efficiently:
+        getGroup( groupName ).addSprite( sprite );
+    }
+    
+    /**
+     * Remove a sprite from the group with the given name
+     *
+     * @param sprite the sprite to be removed
+     * @param groupName name of the group that the sprite is in
+     */
+    public void removeSpriteFromGroup(Sprite sprite, String groupName)
+    {
+        getGroup( groupName ).removeSprite( sprite );
+    }
+    
+    /**
+     * Get the list of sprites in the group with the given name;
+     *   useful in for-loops, when interacting with a specific type of sprite.
+     *
+     * @param groupName the name of the group
+     * @return the list of sprites in that group
+     */
+    public ArrayList<Sprite> getGroupSpriteList(String groupName)
+    {
+        return getGroup( groupName ).getSpriteList();
+    }
+    
+    /**
+     * Return the number of sprites in the group with the given name
+     *
+     * @param groupName the name of the group
+     * @return the number of sprites in the group's sprite list
+     */
+    public int getGroupSpriteCount(String groupName)
+    {
+        return getGroup( groupName ).getSpriteCount();
+    }
     
     // Input object to store keyboard inputs
     public Input input;
@@ -45,8 +134,8 @@ public abstract class Game extends Application
         GraphicsContext context = 
             canvas.getGraphicsContext2D();
 
-        // create a list to store sprites
-        spriteList = new ArrayList<Sprite>();
+        // create a list to store groups
+        groupList = new ArrayList<Group>();
 
         // initialize the Input object; 
         //  window containing mainScene must have focus
@@ -68,10 +157,13 @@ public abstract class Game extends Application
                     
                     update();
                     
-                    // draw all Sprites within list
-                    for (Sprite s : spriteList)
+                    // draw all sprites, in all groups, in the group list.
+                    for (Group g : groupList)
                     {
-                        s.draw(context);
+                        for ( Sprite s : g.getSpriteList() )
+                        {
+                            s.draw(context);
+                        }
                     }
                 }
             };
