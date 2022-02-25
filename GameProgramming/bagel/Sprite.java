@@ -130,5 +130,27 @@ public class Sprite
         return this.size.overlap( other.size );
     }
 
-    
+    /**
+     * If the sprite moves past the edge of the screen,
+     *   adjust its position to the opposite side of the screen.
+     *
+     * @param screenWidth width of the game window (800 by default)
+     * @param screenHeight height of the game window (600 by default)
+     */
+    public void wrap(double screenWidth, double screenHeight)
+    {
+        // check if sprite has moved completely past left screen edge
+        if (position.x + size.width < 0)
+            position.x = screenWidth;
+        // check if sprite has moved completely past right screen edge
+        if (position.x > screenWidth)
+            position.x = -size.width;
+        // check if sprite has moved completely past top screen edge
+        if (position.y + size.height < 0)
+            position.y = screenHeight;
+        // check if sprite has moved completely past bottom screen edge
+        if (position.y > screenHeight)
+            position.y = -size.height;
+    }
+
 }

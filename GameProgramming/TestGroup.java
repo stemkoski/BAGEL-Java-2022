@@ -61,6 +61,7 @@ public class TestGroup extends Game
         if (input.isKeyPressing("D"))
             turtle.moveBy(speed, 0);
 
+            
         for (Sprite starfish : getGroupSpriteList("starfish"))
         {
             if ( turtle.overlap(starfish) )
