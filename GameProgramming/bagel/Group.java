@@ -54,14 +54,16 @@ public class Group
     }
     
     /**
-     * Return the underlying list, useful when iterating (for loop)
+     * Return a copy of the underlying list, useful when iterating (for loop)
      *   over a collection of sprites.
+     * Necessary to avoid "Concurrent Modification Exception" - can't modify (add/remove)
+     *   objects to a list while iterating over the elements in that list.
      *
      * @return the list of sprites
      */
     public ArrayList<Sprite> getSpriteList()
     {
-        return spriteList;
+        return new ArrayList<Sprite>(spriteList);
     }
     
 }
