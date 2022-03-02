@@ -12,12 +12,12 @@ import javafx.scene.paint.Color;
 public class Label extends Sprite
 {
     public String text;
-    
+
     public Font font;
-    
+
     public Color fontColor;
     public Color borderColor;
-    
+
     public Label()
     {
         text = "";
@@ -25,7 +25,7 @@ public class Label extends Sprite
         fontColor = Color.BLACK;
         borderColor = Color.BLACK;
     }
-    
+
     /**
      * Change the text which is displayed by this label.
      *
@@ -35,7 +35,7 @@ public class Label extends Sprite
     {
         text = t;
     }
-    
+
     /**
      * Change the font used to draw the text
      *
@@ -47,7 +47,7 @@ public class Label extends Sprite
     {
         font = new Font(fontName, fontSize);
     }
-    
+
     /**
      * Set the color of the text being drawn. Colors use RGB (red, green, blue) percents;
      *   mix together as colors of light (not colors of paint).
@@ -60,7 +60,7 @@ public class Label extends Sprite
     {
         fontColor = Color.color(redPercent, greenPercent, bluePercent);
     }
-    
+
     /**
      * Set the color of the text border being drawn. Colors use RGB (red, green, blue) percents;
      *   mix together as colors of light (not colors of paint).
@@ -73,7 +73,7 @@ public class Label extends Sprite
     {
         borderColor = Color.color(redPercent, greenPercent, bluePercent);
     }
-    
+
     /**
      * Draw the text on the screen.
      *
@@ -81,21 +81,22 @@ public class Label extends Sprite
      */
     public void draw(GraphicsContext context)
     {
-        // tell context which font to use when drawing text
-        context.setFont( font );
-        
-        // tell context which color to use when drawing text
-        context.setFill( fontColor );
-        
-        context.fillText(text, position.x, position.y);
-        
-        // tell context color to use around edges
-        context.setStroke( borderColor );
-        
-        context.strokeText(text, position.x, position.y);
+        if (visible)
+        {
+            // tell context which font to use when drawing text
+            context.setFont( font );
+
+            // tell context which color to use when drawing text
+            context.setFill( fontColor );
+
+            context.fillText(text, position.x, position.y);
+
+            // tell context color to use around edges
+            context.setStroke( borderColor );
+
+            context.strokeText(text, position.x, position.y);
+        }
     }
-    
-    
-    
+
     
 }
