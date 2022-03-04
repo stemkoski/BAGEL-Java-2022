@@ -15,6 +15,8 @@ public class Sprite
     public Texture texture;
 
     public boolean visible;
+    
+    public Physics physics;
 
     /**
      * Sprite Constructor; initializes to position (0,0).
@@ -93,6 +95,20 @@ public class Sprite
     }
 
     /**
+     * Assign a Physics object to this Sprite.
+     * When physics object updates position, Sprite position will be updated too.
+     * @param p Physics object
+     */
+    public void setPhysics(Physics p)
+    {
+        physics = p;
+        
+        // link physics object to sprite position vector
+        physics.position = this.position;
+    }
+    
+    
+    /**
      * Draw the image contained in this sprite, 
      *   at the position stored in this sprite,
      *   with the size stored in the rectangle in this sprite.
@@ -151,6 +167,23 @@ public class Sprite
         // check if sprite has moved completely past bottom screen edge
         if (position.y > screenHeight)
             position.y = -size.height;
+    }
+    
+    
+    /**
+     * Automatically update any special objects 
+     *  that have been added to this sprite, such as physics, ...
+     *
+     * @param deltaTime the time that has passed since last update (1/60 second)
+     */
+    public void update(double deltaTime)
+    {
+        // update physics, if present
+        //  if physics is null, physics variable has not been assigned.
+        if ( physics != null )
+        {
+            physics.update(deltaTime);
+        }
     }
 
 }

@@ -66,4 +66,14 @@ public class Group
         return new ArrayList<Sprite>(spriteList);
     }
     
+    /**
+     * Update all sprites contained in this group
+     * @param deltaTime time that has passed since last update (1/60 second)
+     */
+    public void update(double deltaTime)
+    {
+        // call update method on all sprites in this collection
+        for (Sprite s : spriteList)
+            s.update(deltaTime);
+    }
 }

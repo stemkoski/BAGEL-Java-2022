@@ -160,6 +160,7 @@ public abstract class Game extends Application
                     // draw all sprites, in all groups, in the group list.
                     for (Group g : groupList)
                     {
+                        g.update( 1.0 / 60.0 );
                         for ( Sprite s : g.getSpriteList() )
                         {
                             s.draw(context);
