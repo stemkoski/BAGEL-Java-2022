@@ -38,6 +38,8 @@ public class TestPhysics extends Game
         turtle.setTexture( new Texture("turtle.png") );
         turtle.setPosition( 400,300 );
         turtle.setSize(64, 64);
+        // need to set physics: acceleration value, max speed, deceleration value
+        turtle.setPhysics( new Physics(400, 200, 400) );
         addSpriteToGroup( turtle, "main" );
 
         // more efficient to load each texture once
@@ -53,7 +55,8 @@ public class TestPhysics extends Game
             starfish.setPosition(x,y);
             
             // make starfish move automatically
-            starfish.setPhysics( new Physics() );
+            // no acceleration, constant speed is max speed, no deceleration
+            starfish.setPhysics( new Physics(0, 20, 0) );
             
             // starfish.setSpeed() DOES NOT WORK
             starfish.physics.setSpeed( 20 ); // 20 pixels/second
@@ -112,13 +115,13 @@ public class TestPhysics extends Game
         
         double speed = 5;
         if (input.isKeyPressing("W"))
-            turtle.moveBy(0, -speed);
+            turtle.physics.accelerateAtAngle( 270 );
         if (input.isKeyPressing("A"))
-            turtle.moveBy(-speed, 0);
+            turtle.physics.accelerateAtAngle( 180 );
         if (input.isKeyPressing("S"))
-            turtle.moveBy(0, speed);
+            turtle.physics.accelerateAtAngle( 90 );
         if (input.isKeyPressing("D"))
-            turtle.moveBy(speed, 0);
+            turtle.physics.accelerateAtAngle( 0 );
 
         // make all starfish wrap around screen
         for (Sprite starfish : getGroupSpriteList("starfish"))
