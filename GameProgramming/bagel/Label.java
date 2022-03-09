@@ -83,6 +83,9 @@ public class Label extends Sprite
     {
         if (visible)
         {
+            // undo any transforms set by drawing previous sprites.
+            context.setTransform( 1,0, 0,1, 0,0 );
+            
             // tell context which font to use when drawing text
             context.setFont( font );
 

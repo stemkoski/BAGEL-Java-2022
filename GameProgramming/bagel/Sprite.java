@@ -18,6 +18,9 @@ public class Sprite
     
     public Physics physics;
 
+    // angle of rotation of the sprite
+    public double angle;
+    
     /**
      * Sprite Constructor; initializes to position (0,0).
      *
@@ -30,6 +33,8 @@ public class Sprite
         size.position = position;
         // by default, all sprites are visible
         visible = true;
+        
+        angle = 0;
     }
 
     /**
@@ -46,6 +51,8 @@ public class Sprite
         size.position = position;
         // by default, all sprites are visible
         visible = true;
+        
+        angle = 0;
     }
 
     /**
@@ -109,6 +116,17 @@ public class Sprite
     
     
     /**
+     * Set the angle of rotation of the image of this sprite.
+     * @param angleDegrees the angle of rotation
+     */
+    public void setAngle(double angleDegrees)
+    {
+        angle = angleDegrees;    
+    }
+
+    
+    
+    /**
      * Draw the image contained in this sprite, 
      *   at the position stored in this sprite,
      *   with the size stored in the rectangle in this sprite.
@@ -119,7 +137,16 @@ public class Sprite
     {
         if (visible)
         {
-            context.drawImage( texture.image, position.x, position.y, size.width, size.height ); 
+            // we store angle in degrees; Math class functions require radians.
+            double A = Math.toRadians(angle);
+            
+            // rotates objects around the center point of the sprite;
+            //  also renders objects at center of sprite.
+            context.setTransform(  Math.cos(A), Math.sin(A),
+                                  -Math.sin(A), Math.cos(A),
+                                    position.x + size.width/2, position.y + size.height/2 );
+                                            
+            context.drawImage( texture.image, -size.width/2, -size.height/2, size.width, size.height ); 
         }
     }
 
@@ -132,6 +159,16 @@ public class Sprite
     public void moveBy(double xAmount, double yAmount)
     {
         position.addValues(xAmount, yAmount);
+    }
+    
+    /**
+     * Rotate the angle of the sprite image by the given amount (in degrees).
+     *
+     * @param angleAmount amount to add to current angle of rotation
+     */
+    public void rotateBy(double angleAmount)
+    {
+        angle += angleAmount;
     }
 
     /**
