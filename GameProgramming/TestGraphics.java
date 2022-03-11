@@ -65,7 +65,16 @@ public class TestGraphics extends Game
             addSpriteToGroup( starfish, "starfish" );
         }
 
-
+        // add a swimming fish
+        
+        Animation fishAnimation = new Animation("fish.png", 8, 1, 0.2, true);
+        Sprite fish = new Sprite();
+        fish.setPosition(400,300);
+        fish.setAnimation( fishAnimation );
+        fish.setSize(100, 60);
+        addSpriteToGroup( fish, "labels" );
+        
+        
         score = 0;
         
         scoreLabel = new Label();

@@ -21,6 +21,10 @@ public class Sprite
     // angle of rotation of the sprite
     public double angle;
     
+    public Animation animation;
+    
+    
+    
     /**
      * Sprite Constructor; initializes to position (0,0).
      *
@@ -114,6 +118,19 @@ public class Sprite
         physics.position = this.position;
     }
     
+    /**
+     * Assign an Animation object to this Sprite.
+     */
+    public void setAnimation(Animation a)
+    {
+        animation = a;
+        
+        // link animation texture to sprite texture
+        texture = animation.texture;
+        
+        // also, set default size of this sprite based on texture data
+        setSize( texture.region.width, texture.region.height );
+    }
     
     /**
      * Set the angle of rotation of the image of this sprite.
@@ -145,8 +162,13 @@ public class Sprite
             context.setTransform(  Math.cos(A), Math.sin(A),
                                   -Math.sin(A), Math.cos(A),
                                     position.x + size.width/2, position.y + size.height/2 );
-                                            
-            context.drawImage( texture.image, -size.width/2, -size.height/2, size.width, size.height ); 
+                                    
+            //                   [region of image]      [position on canvas]
+            // drawImage( image, x, y, width, height,  x, y, width, height );
+            context.drawImage( texture.image, 
+                               texture.region.position.x, texture.region.position.y,
+                               texture.region.width,      texture.region.height,
+                               -size.width/2, -size.height/2, size.width, size.height  );
         }
     }
 
@@ -209,7 +231,7 @@ public class Sprite
     
     /**
      * Automatically update any special objects 
-     *  that have been added to this sprite, such as physics, ...
+     *  that have been added to this sprite, such as physics, animation, ...
      *
      * @param deltaTime the time that has passed since last update (1/60 second)
      */
@@ -218,8 +240,14 @@ public class Sprite
         // update physics, if present
         //  if physics is null, physics variable has not been assigned.
         if ( physics != null )
-        {
+        { 
             physics.update(deltaTime);
+        }
+        
+        if ( animation != null )
+        {
+            animation.update(deltaTime);
+            texture = animation.texture;
         }
     }
 

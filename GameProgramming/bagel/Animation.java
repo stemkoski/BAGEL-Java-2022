@@ -12,6 +12,15 @@ public class Animation
     // store the rectangles corresponding to small images within large image
     public ArrayList<Rectangle> regionList;
     
+    // how long each image in the spritesheet should be displayed (in seconds; small number)
+    public double imageDuration;
+    // how long the animation has been playing;
+    //   use to calculate which region to display in texture
+    public double elapsedTime;
+    
+    // should we restart the animation from the first region once it is done?
+    public boolean imageLoop;
+    
     /**
      * Load an image file into a Texture, and create a list of rectangles
      *  corresponding to the smaller image sizes, calculated from number of rows and columns.
@@ -19,10 +28,17 @@ public class Animation
      * @param imageFileName name of the file
      * @param rows number of rows of small images
      * @param columns number of columns of small images
+     * @param duration how long each image in spritesheet should appear
+     * @param loop should animation restart after last image is displayed
      */
-    public Animation(String imageFileName, int rows, int columns)
+    public Animation(String imageFileName, int rows, int columns,
+                     double duration, boolean loop)
     {
         texture = new Texture(imageFileName);
+        
+        imageDuration = duration;
+        imageLoop = loop;
+        elapsedTime = 0;
         
         regionList = new ArrayList<Rectangle>();
         // calculate size of smaller images
@@ -41,4 +57,52 @@ public class Animation
             }
         }
     }
+    
+    /**
+     *  Recalculate which region of texture should be displayed,
+     *    based on how much time has passed.
+     *    
+     * @param deltaTime amount of time that passed since last update (usually 1/60 second).
+     */
+    public void update(double deltaTime)
+    {
+        // track total time that has passed
+        elapsedTime += deltaTime;
+        
+        // calculate which region to use in texture
+        
+        // index: 0   1   2   3   4   5   6   7
+        //        
+        // example: if imageDuration = 0.10, and elapsedTime = 0.35, 
+        //  then regionIndex = round down to nearest int (elapsedTime / imageDuration)
+        
+        int regionIndex = (int)Math.floor( elapsedTime / imageDuration );
+        
+        
+         
+        if (regionIndex > regionList.size() - 1)
+        {
+            if (imageLoop == true)
+            {
+                // restart animation from beginning
+                regionIndex = regionIndex % regionList.size();
+            }
+            else
+            { 
+                regionIndex = regionList.size() - 1;
+            }
+        }
+        
+        System.out.println(regionIndex);
+        
+        // update texture data to use current region, based on elapsed time.
+        texture.region = regionList.get( regionIndex );
+    }
+    
+    
+    
+    
+    
+    
+    
 }
