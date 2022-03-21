@@ -51,7 +51,7 @@ public class Animation
             {
                 // coordinates of top-left corner of small image
                 double smallX = columnNum * smallWidth;
-                double smallY = rowNum * columnNum;
+                double smallY = rowNum * smallHeight;
                 Rectangle smallRect = new Rectangle(smallX, smallY, smallWidth, smallHeight);
                 regionList.add( smallRect );
             }
@@ -92,9 +92,7 @@ public class Animation
                 regionIndex = regionList.size() - 1;
             }
         }
-        
-        System.out.println(regionIndex);
-        
+                
         // update texture data to use current region, based on elapsed time.
         texture.region = regionList.get( regionIndex );
     }
