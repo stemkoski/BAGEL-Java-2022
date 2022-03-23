@@ -1,6 +1,7 @@
 package bagel;
 
 import javafx.scene.canvas.*;
+import java.util.ArrayList;
 
 /**
  * Represents the game entities displayed on the screen;
@@ -23,7 +24,7 @@ public class Sprite
     
     public Animation animation;
     
-    
+    public ArrayList<Action> actionList;
     
     /**
      * Sprite Constructor; initializes to position (0,0).
@@ -39,6 +40,7 @@ public class Sprite
         visible = true;
         
         angle = 0;
+        actionList = new ArrayList<Action>();
     }
 
     /**
@@ -57,6 +59,7 @@ public class Sprite
         visible = true;
         
         angle = 0;
+        actionList = new ArrayList<Action>();
     }
 
     /**
@@ -228,10 +231,19 @@ public class Sprite
             position.y = -size.height;
     }
     
+    /**
+     * Add an Action to the list of actions being performed by the sprite.
+     *
+     * @param a the Action to add
+     */
+    public void addAction(Action a)
+    {
+        actionList.add(a);
+    }
     
     /**
      * Automatically update any special objects 
-     *  that have been added to this sprite, such as physics, animation, ...
+     *  that have been added to this sprite, such as physics, animation, actions.
      *
      * @param deltaTime the time that has passed since last update (1/60 second)
      */
@@ -244,11 +256,27 @@ public class Sprite
             physics.update(deltaTime);
         }
         
+        // update animation if present
         if ( animation != null )
         {
             animation.update(deltaTime);
             texture = animation.texture;
         }
+        
+        // update actions from list, if any are present
+        // when an action is finished, remove it from the list
+        
+        // copy actionList
+        ArrayList<Action> actionListCopy = new ArrayList<Action>(actionList);
+        for (Action action : actionListCopy)
+        {
+            // apply action to this Sprite, and check if finished
+            boolean finished = action.apply( this, deltaTime );
+            // if finished, remove Action from original actionList.
+            if ( finished )
+                actionList.remove(action);
+        }
+        
     }
 
 }
