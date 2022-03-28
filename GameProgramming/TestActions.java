@@ -44,7 +44,7 @@ public class TestActions extends Game
         Action[] actionArray = { Action.moveBy(100,0, 1),  Action.rotateBy(360, 1),
                                  Action.moveBy(-100,0, 1), Action.rotateBy(360, 1) };
                                  
-        starfish.addAction( Action.repeat( Action.sequence(actionArray), 10000 ) );
+        starfish.addAction( Action.sequence(actionArray) );
        
         addSpriteToGroup(starfish, "main");
         

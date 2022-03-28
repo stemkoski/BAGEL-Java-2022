@@ -24,6 +24,9 @@ public class Action
     // how long this Action has been running
     public double totalTime;
 
+    // used by sequence actions
+    public int actionIndex0 = 0;
+
     /**
      * Creates an Action object, which contains a function applied to a Sprite
      *   automatically over time.
@@ -57,9 +60,10 @@ public class Action
     public void reset()
     {
         totalTime = 0;
+        // used by sequence actions
+        actionIndex0 = 0;
     }
 
-    
     // methods to create Action objects
     // static methods, to more easily create Actions directly from class
 
@@ -120,42 +124,40 @@ public class Action
      */
     public static Action sequence(Action[] actionArray)
     {
-        return new Action(null)
-        {
-            public int actionIndex = 0;
-
-            public Action()
+        Function func = new Function() 
             {
-                function = new Function() 
+                public int actionIndex;
+                
+                public boolean run(Sprite target, double deltaTime, double totalTime)
                 {
-                    public boolean run(Sprite target, double deltaTime, double totalTime)
-                    {
-                        Action currentAction = actionArray[ actionIndex ];
-                        boolean finished = currentAction.apply( target, deltaTime );
-                        // if the current action is finished, next time, move on to next action
-                        if (finished == true)
-                            actionIndex++;
-                        // if all actions are finished, the sequence is finished
-                        boolean sequenceFinished = (actionIndex == actionArray.length);
+                    Action currentAction = actionArray[ actionIndex ];
+                    boolean finished = currentAction.apply( target, deltaTime );
+                    // if the current action is finished, next time, move on to next action
+                    if (finished == true)
+                        actionIndex++;
+                    // if all actions are finished, the sequence is finished
+                    boolean sequenceFinished = (actionIndex == actionArray.length);
 
-                        return sequenceFinished;
-                    }
-                };
-            }
-            // override the reset function
-            public void reset()
-            {
-                // reset all Actions contained in actionArray.
-                for (int i = 0; i < actionArray.length; i++)
-                {
-                    Action act = actionArray[i];
-                    act.reset();
-
-                    // start sequence at index 0 again
-                    actionIndex = 0;
+                    return sequenceFinished;
                 }
-            }
-        };
+            };
+
+        return new Action(func);
+        /*
+        // override the reset function
+        public void reset()
+        {
+        // reset all Actions contained in actionArray.
+        for (int i = 0; i < actionArray.length; i++)
+        {
+        Action act = actionArray[i];
+        act.reset();
+
+        // start sequence at index 0 again
+        actionIndex = 0;
+        }
+        }
+         */
     }
 
     /**
@@ -188,6 +190,4 @@ public class Action
         return new Action(func);
     }
 
-    
-    
 }
