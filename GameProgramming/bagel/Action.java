@@ -116,6 +116,68 @@ public class Action
     }
 
     /**
+     * Automatically call the wrap function forever.
+     *
+     * @param screenWidth the width of the game window
+     * @param screenHeight the height of the game window
+     * @return Action
+     */
+    public static Action wrap(int screenWidth, int screenHeight)
+    {
+        Function func = new Function()
+        {
+            public boolean run(Sprite target, double deltaTime, double totalTime)
+            {
+                target.wrap(screenWidth, screenHeight);
+                // this action is never "finished"
+                return false;
+            }
+        };
+        return new Action(func);
+    }
+    
+    /**
+     * An action that does nothing for duration seconds.
+     * Only useful in Action sequence, to wait before performing some other Action
+     *  (like removing from game).
+     *
+     * @param duration how long the action lasts (how long to wait, in seconds)
+     * @return Action
+     */
+    public static Action delay(double duration)
+    {
+        Function func = new Function()
+        {
+            public boolean run(Sprite target, double deltaTime, double totalTime)
+            {
+                // not actually running any function on the sprite.
+                
+                boolean finished = (totalTime >= duration);
+                return finished;
+            }
+        };
+        return new Action(func);
+    }
+    
+    /**
+     * Causes a Sprite to be immediately destroyed (removed from game).
+     * @return Action
+     */
+    public static Action destroy()
+    {
+        Function func = new Function()
+        {
+            public boolean run(Sprite target, double deltaTime, double totalTime)
+            {
+                target.destroy();
+                // immediately finished with this action!
+                return true;
+            }
+        };
+        return new Action(func);
+    }
+    
+    /**
      * Perform a sequence of Actions, one after the other, instead of running all
      *   Actions at the same time (which is the default).
      *

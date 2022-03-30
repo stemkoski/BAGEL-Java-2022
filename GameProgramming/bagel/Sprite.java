@@ -26,6 +26,9 @@ public class Sprite
     
     public ArrayList<Action> actionList;
     
+    // indicates whether Sprite should be removed from its group.
+    public boolean destroySignal;
+    
     /**
      * Sprite Constructor; initializes to position (0,0).
      *
@@ -41,6 +44,8 @@ public class Sprite
         
         angle = 0;
         actionList = new ArrayList<Action>();
+        // do NOT destroy this sprite right away
+        destroySignal = false;
     }
 
     /**
@@ -60,6 +65,8 @@ public class Sprite
         
         angle = 0;
         actionList = new ArrayList<Action>();
+        // do NOT destroy this sprite right away
+        destroySignal = false;
     }
 
     /**
@@ -279,4 +286,18 @@ public class Sprite
         
     }
 
+    /**
+     * Set destroy signal to true;
+     *  the next time the game loops over all Sprites,
+     *  any Sprite with destroySignal = true will be removed from its list.
+     */
+    public void destroy()
+    {
+        destroySignal = true;    
+    }
+    
+    
+    
+    
+    
 }

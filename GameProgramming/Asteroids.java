@@ -5,8 +5,9 @@ public class Asteroids extends Game
     // need to use Spaceship in all methods
     public Sprite spaceship;
     
-    // use a shared image for lasers
+    // use a shared image for lasers and also asteroids
     public Texture laserTexture;
+    public Texture asteroidTexture;
     
     public void initialize()
     {
@@ -23,12 +24,32 @@ public class Asteroids extends Game
         spaceship = new Sprite();
         spaceship.setTexture( new Texture("images/spaceship.png") );
         spaceship.setSize(50, 50);
-        spaceship.setPosition(400, 300);
+        spaceship.setPosition(200, 300);
         // low deceleration - spaceship will "drift" when not accelerating
         spaceship.setPhysics( new Physics(100, 200, 5) );
+        // set up automatic wrap
+        spaceship.addAction( Action.wrap(800,600) );
         addSpriteToGroup(spaceship, "main");
         
         laserTexture = new Texture("images/laser.png");
+        
+        asteroidTexture = new Texture("images/asteroid.png");
+        
+        int asteroidCount = 6;
+        for (int i = 0; i < asteroidCount; i++)
+        {
+            Sprite asteroid = new Sprite();
+            asteroid.setTexture( asteroidTexture );
+            asteroid.setPosition(600, 400);
+            asteroid.setSize(64,64);
+            asteroid.setPhysics( new Physics(0, 80, 0) );
+            asteroid.physics.setSpeed( 80 );
+            // want them all moving in different directions
+            asteroid.physics.setMotionAngle( Math.random() * 360 );
+            asteroid.addAction( Action.wrap(800,600) );
+            
+            addSpriteToGroup(asteroid, "asteroid");
+        }
     }
 
     public void update()
@@ -45,9 +66,6 @@ public class Asteroids extends Game
         if (input.isKeyPressing("W"))
             spaceship.physics.accelerateAtAngle( spaceship.angle );
             
-        // wrap around screen
-        spaceship.wrap(800, 600);
-        
         if (input.isKeyPressed("SPACE"))
         {
             Sprite laser = new Sprite();
@@ -58,14 +76,30 @@ public class Asteroids extends Game
             laser.setPhysics( new Physics(0,400,0) );
             laser.physics.setSpeed(400);
             laser.physics.setMotionAngle( spaceship.angle );
+            // automatically call wrap function
+            laser.addAction( Action.wrap(800,600) );
+            
+            // lasers will destroy themselves after 2 seconds have passed
+            Action[] actionArray = { Action.delay(2), Action.destroy() };
+            laser.addAction( Action.sequence(actionArray) );
+            
             addSpriteToGroup(laser, "laser");
         }
         
-        // make sure lasers wrap
+        // handle laser-rock overlap
         for (Sprite laser : getGroupSpriteList("laser"))
         {
-            laser.wrap(800, 600);
+            for (Sprite asteroid : getGroupSpriteList("asteroid"))
+            {
+                if (laser.overlap(asteroid))
+                {
+                    laser.destroy();
+                    asteroid.destroy();
+                    // TODO: add explosion animation
+                }
+            }
         }
+       
     }
 
     public static void main(String[] args)

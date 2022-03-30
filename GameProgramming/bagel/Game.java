@@ -163,6 +163,11 @@ public abstract class Game extends Application
                         g.update( 1.0 / 60.0 );
                         for ( Sprite s : g.getSpriteList() )
                         {
+                            // if destroy function was called,
+                            //  remove sprite from the group that contains it.
+                            if (s.destroySignal == true)
+                                g.removeSprite(s);
+                                
                             s.draw(context);
                         }
                     }
