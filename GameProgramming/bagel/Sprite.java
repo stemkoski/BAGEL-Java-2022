@@ -297,7 +297,20 @@ public class Sprite
     }
     
     
-    
+    /**
+     * Align the center of this sprite with the center of the other sprite
+     *  and set angles to the same value.
+     *
+     * @param otherSprite sprite to align this sprite with
+     */
+    public void alignToSprite(Sprite otherSprite)
+    {
+        // aligning center point
+        setPosition( otherSprite.position.x + otherSprite.size.width/2 - this.size.width/2,
+                     otherSprite.position.y + otherSprite.size.height/2 - this.size.height/2 );
+        // align angle 
+        setAngle( otherSprite.angle );
+    }
     
     
 }

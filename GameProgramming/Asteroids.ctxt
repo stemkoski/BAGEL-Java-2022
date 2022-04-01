@@ -1,9 +1,11 @@
 #BlueJ class context
 comment0.target=Asteroids
-comment1.params=
-comment1.target=void\ initialize()
+comment1.params=min\ max
+comment1.target=double\ random(double,\ double)
 comment2.params=
-comment2.target=void\ update()
-comment3.params=args
-comment3.target=void\ main(java.lang.String[])
-numComments=4
+comment2.target=void\ initialize()
+comment3.params=
+comment3.target=void\ update()
+comment4.params=args
+comment4.target=void\ main(java.lang.String[])
+numComments=5

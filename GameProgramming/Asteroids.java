@@ -4,10 +4,18 @@ public class Asteroids extends Game
 {
     // need to use Spaceship in all methods
     public Sprite spaceship;
+    public Sprite rocketfire;
     
     // use a shared image for lasers and also asteroids
     public Texture laserTexture;
     public Texture asteroidTexture;
+    
+    // a useful function for producing random numbers between min and max
+    public double random(double min, double max)
+    {
+        double range = max - min;
+        return min + Math.random() * range;
+    }
     
     public void initialize()
     {
@@ -21,6 +29,13 @@ public class Asteroids extends Game
         background.setPosition(0, 0);
         addSpriteToGroup(background, "main");
 
+        // create rocketfire effect,
+        //  must add to same group as spaceship, but before spaceship, to appear underneath it.
+        rocketfire = new Sprite();
+        rocketfire.setTexture( new Texture( "images/fire.png" ) );
+        rocketfire.setSize(128, 16);
+        addSpriteToGroup(rocketfire, "main");
+        
         spaceship = new Sprite();
         spaceship.setTexture( new Texture("images/spaceship.png") );
         spaceship.setSize(50, 50);
@@ -31,22 +46,27 @@ public class Asteroids extends Game
         spaceship.addAction( Action.wrap(800,600) );
         addSpriteToGroup(spaceship, "main");
         
+        
+        
         laserTexture = new Texture("images/laser.png");
         
         asteroidTexture = new Texture("images/asteroid.png");
         
-        int asteroidCount = 6;
+        int asteroidCount = 8;
         for (int i = 0; i < asteroidCount; i++)
         {
             Sprite asteroid = new Sprite();
             asteroid.setTexture( asteroidTexture );
             asteroid.setPosition(600, 400);
-            asteroid.setSize(64,64);
-            asteroid.setPhysics( new Physics(0, 80, 0) );
-            asteroid.physics.setSpeed( 80 );
+            asteroid.setSize( random(50,70), random(50,70) );
+            asteroid.setPhysics( new Physics(0, 150, 0) );
+            asteroid.physics.setSpeed( random(80,150) );
             // want them all moving in different directions
-            asteroid.physics.setMotionAngle( Math.random() * 360 );
+            asteroid.physics.setMotionAngle( random(0,360) );
             asteroid.addAction( Action.wrap(800,600) );
+            asteroid.addAction( 
+                Action.repeat( Action.rotateBy(random(50,100), 1), 10000 ) 
+            );
             
             addSpriteToGroup(asteroid, "asteroid");
         }
@@ -62,17 +82,29 @@ public class Asteroids extends Game
         if (input.isKeyPressing("D"))
             spaceship.rotateBy(2);
             
+        rocketfire.alignToSprite(spaceship);
+            
         // accelerate spaceship forwards while pressing W key
         if (input.isKeyPressing("W"))
+        {
             spaceship.physics.accelerateAtAngle( spaceship.angle );
-            
+            rocketfire.setVisible(true);
+        }
+        else
+        {
+            rocketfire.setVisible(false);
+        }
+        
+        
         if (input.isKeyPressed("SPACE"))
         {
             Sprite laser = new Sprite();
             laser.setTexture( laserTexture );
             laser.setSize(16, 16);
-            laser.setPosition( spaceship.position.x + spaceship.size.width/2  - laser.size.width/2, 
-                               spaceship.position.y + spaceship.size.height/2 - laser.size.height/2);
+            
+            // aligns center point and angle with spaceship
+            laser.alignToSprite(spaceship);
+            
             laser.setPhysics( new Physics(0,400,0) );
             laser.physics.setSpeed(400);
             laser.physics.setMotionAngle( spaceship.angle );
@@ -96,10 +128,18 @@ public class Asteroids extends Game
                     laser.destroy();
                     asteroid.destroy();
                     // TODO: add explosion animation
+                    // TODO: add to score and update Label to display score.
                 }
             }
         }
        
+        // TODO: check if any rock overlaps spaceship:
+        //   if so, destroy spaceship, create explosion, game over message visible
+        
+        // TODO: if 0 asteroids left, win message visible
+        
+        
+        
     }
 
     public static void main(String[] args)

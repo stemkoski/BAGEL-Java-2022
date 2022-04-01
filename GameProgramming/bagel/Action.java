@@ -251,5 +251,21 @@ public class Action
 
         return new Action(func);
     }
+    
+    public static Action forever(Action act)
+    {
+        Function func = new Function()
+        {
+            public boolean run(Sprite target, double deltaTime, double totalTime)
+            {
+                boolean finished = act.apply(target, deltaTime);
+                if (finished == true)
+                    act.reset();
+                    
+                return false;
+            }
+        };
+        return new Action(func);
+    }
 
 }
