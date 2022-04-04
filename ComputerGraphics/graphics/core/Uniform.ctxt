@@ -1,0 +1,10 @@
+#BlueJ class context
+comment0.target=Uniform
+comment0.text=\r\n\ Store\ and\ send\ uniform\ (constant)\ data\ to\ the\ GPU.\r\n
+comment1.params=dataType\ data
+comment1.target=Uniform(java.lang.String,\ java.lang.Object)
+comment2.params=programRef\ variableName
+comment2.target=void\ associateVariable(int,\ java.lang.String)
+comment3.params=
+comment3.target=void\ uploadData()
+numComments=4

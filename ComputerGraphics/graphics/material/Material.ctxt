@@ -1,0 +1,8 @@
+#BlueJ class context
+comment0.target=Material
+comment0.text=\r\n\ Store\ appearance-related\ data\:\r\n\ \ -\ shader\ program\ reference\r\n\ \ -\ collection\ of\ uniform\ objects\ needed\ by\ shader\ program\r\n
+comment1.params=vertexShaderFileName\ fragmentShaderFileName
+comment1.target=Material(java.lang.String,\ java.lang.String)
+comment2.params=dataType\ variableName\ data
+comment2.target=void\ addUniform(java.lang.String,\ java.lang.String,\ java.lang.Object)
+numComments=3

@@ -1,0 +1,8 @@
+#BlueJ class context
+comment0.target=Geometry
+comment0.text=\r\n\ Define\ the\ "structure"\ of\ a\ 3D\ object;\ store\ Attributes\r\n\ \ \ contain\ vertex-related\ data\ (position,\ color,\ etc.)\r\n
+comment1.params=
+comment1.target=Geometry()
+comment2.params=dataType\ variableName\ dataArray
+comment2.target=void\ addAttribute(java.lang.String,\ java.lang.String,\ float[])
+numComments=3

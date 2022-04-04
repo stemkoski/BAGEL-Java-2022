@@ -1,0 +1,6 @@
+#BlueJ class context
+comment0.target=Mesh
+comment0.text=\r\n\ Group\ together\ Geometry\ and\ Material\ objects;\r\n\ \ store\ a\ VAO\ that\ associates\ vertex\ buffers\ (from\ Geometry)\ \r\n\ \ \ \ \ with\ shader\ variables\ (from\ Material)\r\n
+comment1.params=geo\ mat
+comment1.target=Mesh(graphics.geometry.Geometry,\ graphics.material.Material)
+numComments=2

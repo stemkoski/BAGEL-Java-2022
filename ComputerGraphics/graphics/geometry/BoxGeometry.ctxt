@@ -1,0 +1,6 @@
+#BlueJ class context
+comment0.target=BoxGeometry
+comment0.text=\r\n\ It's\ a\ BOX\r\n
+comment1.params=width\ height\ depth
+comment1.target=BoxGeometry(double,\ double,\ double)
+numComments=2

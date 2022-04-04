@@ -1,0 +1,5 @@
+#BlueJ class context
+comment0.target=SurfaceGeometry
+comment1.params=F\ uStart\ uEnd\ uNumPoints\ vStart\ vEnd\ vNumPoints
+comment1.target=SurfaceGeometry(graphics.math.Surface.Function,\ double,\ double,\ int,\ double,\ double,\ int)
+numComments=2

@@ -1,0 +1,8 @@
+#BlueJ class context
+comment0.target=Renderer
+comment0.text=\r\n\ Main\ purpose\ is\ to\ draw\ all\ objects\ specified\ by\ meshes.\r\n\ \r\n
+comment1.params=
+comment1.target=Renderer()
+comment2.params=sceneRoot\ camera
+comment2.target=void\ render(Object3D,\ Camera)
+numComments=3
