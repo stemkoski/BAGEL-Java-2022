@@ -13,6 +13,13 @@ import javafx.animation.*;
 //  must write extending class that defines abstract methods.
 public abstract class Game extends Application
 {
+    public int screenWidth;
+    public int screenHeight;
+    
+    public Canvas canvas;
+    
+    public Stage stage;
+    
     public Game()
     {
         
@@ -126,8 +133,12 @@ public abstract class Game extends Application
         // attach Scene to Stage
         mainStage.setScene( mainScene );
 
+        stage = mainStage;
+        screenWidth = 800;
+        screenHeight = 600;
+        
         // canvas displays images
-        Canvas canvas = new Canvas(800, 600);
+        canvas = new Canvas(screenWidth, screenHeight);
         // attach canvas to scene
         root.getChildren().add( canvas );
         // context has methods for drawing images
@@ -150,7 +161,7 @@ public abstract class Game extends Application
                 {
                     // refresh canvas by making all pixels
                     //   a solid color (black)
-                    context.fillRect(0,0, 800,600);
+                    context.fillRect(0,0, screenWidth,screenHeight);
                     
                     // update input key lists
                     input.update();
@@ -183,6 +194,19 @@ public abstract class Game extends Application
         
         // make stage visible
         mainStage.show();
+    }
+    
+    public void setScreenSize(int newScreenWidth, int newScreenHeight)
+    {
+        screenWidth = newScreenWidth;
+        screenHeight = newScreenHeight;
+        
+        canvas.setWidth(newScreenWidth);
+        canvas.setHeight(newScreenHeight);
+        
+        stage.setWidth(newScreenWidth);
+        stage.setHeight(newScreenHeight);
+        
     }
 
    

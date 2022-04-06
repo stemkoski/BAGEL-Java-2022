@@ -28,6 +28,9 @@ comment16.text=\r\n\ Automatically\ update\ any\ special\ objects\ \r\n\ \ that\
 comment17.params=
 comment17.target=void\ destroy()
 comment17.text=\r\n\ Set\ destroy\ signal\ to\ true;\r\n\ \ the\ next\ time\ the\ game\ loops\ over\ all\ Sprites,\r\n\ \ any\ Sprite\ with\ destroySignal\ \=\ true\ will\ be\ removed\ from\ its\ list.\r\n
+comment18.params=otherSprite
+comment18.target=void\ alignToSprite(Sprite)
+comment18.text=\r\n\ Align\ the\ center\ of\ this\ sprite\ with\ the\ center\ of\ the\ other\ sprite\r\n\ \ and\ set\ angles\ to\ the\ same\ value.\r\n\r\n\ @param\ otherSprite\ sprite\ to\ align\ this\ sprite\ with\r\n
 comment2.params=x\ y
 comment2.target=Sprite(double,\ double)
 comment2.text=\r\n\ Sprite\ Constructor;\ initializes\ position\ to\ (x,y).\r\n\r\n\ @param\ x\ x\ coordinate\ of\ top-left\ corner\r\n\ @param\ y\ y\ coordinate\ of\ top-left\ corner\r\n
@@ -52,4 +55,4 @@ comment8.text=\r\n\ Assign\ an\ Animation\ object\ to\ this\ Sprite.\r\n
 comment9.params=angleDegrees
 comment9.target=void\ setAngle(double)
 comment9.text=\r\n\ Set\ the\ angle\ of\ rotation\ of\ the\ image\ of\ this\ sprite.\r\n\ @param\ angleDegrees\ the\ angle\ of\ rotation\r\n
-numComments=18
+numComments=19
