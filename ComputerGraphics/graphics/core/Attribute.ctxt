@@ -1,9 +1,0 @@
-#BlueJ class context
-comment0.target=Attribute
-comment0.text=\r\n\ Store\ vertex-related\ data\ (position,\ color,\ ...)\r\n
-comment1.params=type\ array
-comment1.target=Attribute(java.lang.String,\ float[])
-comment2.params=programRef\ variableName
-comment2.target=void\ associateVariable(int,\ java.lang.String)
-comment2.text=\r\n\ associate\ the\ data\ stored\ in\ the\ buffer\r\n\ \ to\ a\ variable\ in\ a\ GPU\ program.\r\n\ \ ("tell\ the\ program\ to\ use\ the\ data\ from\ the\ buffer\ as\ the\ variable")\r\n\r\n\ @param\ programRef\ a\ GPU\ program\ reference,\ previously\ compiled\r\n\ @param\ variableName\ the\ name\ of\ a\ variable\ in\ vertex\ shader\r\n
-numComments=3

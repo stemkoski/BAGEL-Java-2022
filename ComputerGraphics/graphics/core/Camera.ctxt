@@ -1,8 +1,0 @@
-#BlueJ class context
-comment0.target=Camera
-comment0.text=\r\n\ \ \ Camera\ affects\ how\ viewer\ sees\ all\ objects\ in\ a\ 3D\ scene;\r\n\ \ \ view\ matrix\ \=\ inverse\ of\ the\ camera's\ transform\ matrix\r\n\ \ \ \r\n\ \ \ also\ store\ a\ projection\ matrix\ that\ makes\ objects\ farther\ away\ appear\ smaller\r\n
-comment1.params=
-comment1.target=Camera()
-comment2.params=
-comment2.target=void\ updateViewMatrix()
-numComments=3
