@@ -1,23 +1,24 @@
 import bagel.*;
 
 /**
- * Write a game that tests the new Label class.
+ * The final version of the Starfish Collector game created in class.
  */
-public class TestLabel extends Game
+public class StarfishCollector extends Game
 {
     Sprite turtle;
+
     Sprite win;
 
     Label scoreLabel;
     int score;
-    
+
     Label timeLabel;
     double time; // time is seconds
-    
+
     Label gameOverLabel;
-    
+
     Label winLabel;
-    
+
     // two groups to store sprites:
     //  "main": background image, turtle, etc.
     //  "starfish": put all starfish here
@@ -25,23 +26,26 @@ public class TestLabel extends Game
     {
         createGroup("main");
         createGroup("starfish");
+        createGroup("fish");
         // add labels to this group so they are drawn last and appear on everything else
         createGroup("labels");
 
         Sprite water = new Sprite();
-        water.setTexture( new Texture("water.png") );
+        water.setTexture( new Texture("images/water.png") );
         water.setPosition( 0,0 );
         water.setSize( 800,600 );
         addSpriteToGroup( water, "main" );
 
         turtle = new Sprite();
-        turtle.setTexture( new Texture("turtle.png") );
+        turtle.setTexture( new Texture("images/turtle.png") );
         turtle.setPosition( 400,300 );
         turtle.setSize(64, 64);
+        // need to set physics: acceleration value, max speed, deceleration value
+        turtle.setPhysics( new Physics(400, 200, 400) );
         addSpriteToGroup( turtle, "main" );
 
         // more efficient to load each texture once
-        Texture starfishTexture = new Texture("starfish.png");
+        Texture starfishTexture = new Texture("images/starfish.png");
         int starfishCount = 1000;
         for (int i = 0; i < starfishCount; i++)
         {
@@ -51,12 +55,50 @@ public class TestLabel extends Game
             double x = (Math.random() * 700) + 50;
             double y = (Math.random() * 500) + 50;
             starfish.setPosition(x,y);
+
+            // make starfish move automatically
+            // no acceleration, constant speed is max speed, no deceleration
+            starfish.setPhysics( new Physics(0, 20, 0) );
+
+            // starfish.setSpeed() DOES NOT WORK
+            starfish.physics.setSpeed( 20 ); // 20 pixels/second
+            starfish.physics.setMotionAngle( Math.random() * 360 );
+
             addSpriteToGroup( starfish, "starfish" );
         }
 
+        // add a swimming fish
+
+        int fishCount = 10;
+        for (int i = 0; i < fishCount; i++)
+        { 
+            Sprite fish = new Sprite(); 
+            
+            // random starting positions
+            double x = (Math.random() * 700) + 50;
+            double y = (Math.random() * 500) + 50;
+            fish.setPosition(x,y);
+            
+            // creating new animation, so each has its own elapsed time value
+            // (before, all fish were updating a single time variable; it went too fast!)
+            Animation fishAnimation = new Animation("images/fish.png", 8, 1, 0.1, true);
+            
+            fish.setAnimation( fishAnimation );
+            fish.setSize(80, 45);
+            // fish move across screen: physics( acceleration, max speed, deceleration )
+            fish.setPhysics( new Physics(0, 80 ,0) );
+            fish.physics.setSpeed( 80 );
+
+            double angle = Math.random() * 360;
+
+            fish.physics.setMotionAngle( angle );
+            fish.setAngle( angle );
+
+            addSpriteToGroup( fish, "fish" );
+        }
 
         score = 0;
-        
+
         scoreLabel = new Label();
         scoreLabel.setText("Score: " + score);
         scoreLabel.setPosition( 20, 50 );
@@ -64,16 +106,16 @@ public class TestLabel extends Game
         // draw text in yellow
         scoreLabel.setColor(1.00, 1.00, 0.00);
         addSpriteToGroup( scoreLabel, "labels" );
-        
-        time = 30;
-        
+
+        time = 60;
+
         timeLabel = new Label();
         timeLabel.setText("Time left: " + time);
         timeLabel.setPosition( 20, 580 );
         timeLabel.setFont("Impact", 48);
         timeLabel.setColor(0.00, 1.00, 0.00);
         addSpriteToGroup( timeLabel, "labels" );
-        
+
         gameOverLabel = new Label();
         gameOverLabel.setText("Game Over");
         gameOverLabel.setPosition( 250, 300 );
@@ -81,7 +123,7 @@ public class TestLabel extends Game
         gameOverLabel.setColor(0.80, 0.80, 0.80);
         gameOverLabel.setVisible(false);
         addSpriteToGroup( gameOverLabel, "labels" );
-        
+
         winLabel = new Label();
         winLabel.setText("You Win!!!");
         winLabel.setPosition( 250, 300);
@@ -95,24 +137,43 @@ public class TestLabel extends Game
     {
         // if the win message or the game over message is visible,
         //  then we need to stop everything from moving; stop user input
-        
+
         if ( winLabel.visible == true || gameOverLabel.visible == true )
         {
             // exit this method immediately
             return;
         }
+
+        // wrap fish around screen
+        //  get the list of sprites from the fish group
+        //  apply the wrap function to each one.
+        for (Sprite fish : getGroupSpriteList("fish"))
+        {
+            fish.wrap(800, 600);
+        }
         
         double speed = 5;
         if (input.isKeyPressing("W"))
-            turtle.moveBy(0, -speed);
+            turtle.physics.accelerateAtAngle( 270 );
         if (input.isKeyPressing("A"))
-            turtle.moveBy(-speed, 0);
+            turtle.physics.accelerateAtAngle( 180 );
         if (input.isKeyPressing("S"))
-            turtle.moveBy(0, speed);
+            turtle.physics.accelerateAtAngle( 90 );
         if (input.isKeyPressing("D"))
-            turtle.moveBy(speed, 0);
+            turtle.physics.accelerateAtAngle( 0 );
 
-            
+        // set the turtle image angle to the turtle angle of motion
+        //   BUT only when the turtle is actually moving.
+        // otherwise, turtle angle returns to default (0 degrees) when not moving.
+        if ( turtle.physics.getSpeed() > 0.0001 )
+            turtle.setAngle( turtle.physics.getMotionAngle() );
+
+        // make all starfish wrap around screen
+        for (Sprite starfish : getGroupSpriteList("starfish"))
+        {
+            starfish.wrap(800, 600);
+        }
+
         for (Sprite starfish : getGroupSpriteList("starfish"))
         {
             if ( turtle.overlap(starfish) )
@@ -129,10 +190,10 @@ public class TestLabel extends Game
         {
             winLabel.setVisible( true );
         }
-        
+
         time -= 1.0 / 60.0; 
         timeLabel.setText("Time left: " + Math.round(time) );
-        
+
         // lose the game if time reaches 0.0
         if (time <= 0.0) 
         {
@@ -156,7 +217,4 @@ public class TestLabel extends Game
         }
     }
 }
-
-
-
 
