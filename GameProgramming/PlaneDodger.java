@@ -45,7 +45,7 @@ public class PlaneDodger extends Game
         enemyTexture = new Texture("images/plane-red.png");
         enemyTimer = 0;
         enemySpeed = 120;
-        enemySpawnRate = 1.0;
+        enemySpawnRate = 1.5;
     }
 
     public void update()
@@ -77,11 +77,29 @@ public class PlaneDodger extends Game
             // appear at random y coordinate
             double y = Math.random() * 600;
             enemy.setPosition( 600, y );
-            enemy.setPhysics( new Physics(0,800,0) );
+            enemy.setPhysics( new Physics(0, 600, 0) );
             // increase the base speed for new enemies
-            enemySpeed += 10;
+            enemySpeed += 5;
             enemy.physics.setSpeed(enemySpeed);
             enemy.physics.setMotionAngle(180);
+            
+            // add an action that makes the enemy move up and down repeatedly.
+            Action[] actionArray = { Action.moveBy(0,-30, 0.5),
+                                     Action.moveBy(0, 30, 0.5),
+                                     Action.moveBy(0,-30, 0.5),
+                                     Action.moveBy(0, 30, 0.5),
+                                     Action.moveBy(0,-30, 0.5),
+                                     Action.moveBy(0, 30, 0.5) };
+            enemy.addAction( Action.sequence(actionArray) );
+            
+            // add an action to remove enemy from game after a while
+            //  (prevent using too much memory / causing "lag")
+            
+            // note: this code is also useful to make animated effects disappear after they are done.
+            Action[] actionArray2 = { Action.delay(6), Action.destroy() };
+            enemy.addAction( Action.sequence(actionArray2) );
+            
+            
             addSpriteToGroup(enemy, "enemy");
             // reset the timer
             enemyTimer = 0;
