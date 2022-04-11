@@ -1,5 +1,6 @@
 package bagel;
 
+import java.util.Arrays;
 
 /**
  * Rectangles store position and size; used to check overlap between sprites.
@@ -79,7 +80,30 @@ public class Rectangle
         return !(notOverlap);
     }
     
-    
+    /**
+     * Assuming that this rectangle overlaps other rectangle,
+     * calculate the four vectors that could be used to translate this rectangle
+     * so that this is no more overlap.
+     * Return the shortest (minimum) of these four vectors.
+     *
+     * @param other Represents the "solid" rectangle
+     * @return the minimum direction to move this rectangle by
+     */
+    public Vector getMinimumTranslationVector(Rectangle other)
+    {
+        Vector[] directions = {
+            new Vector(other.position.x + other.width - this.position.x, 0), // right
+            new Vector(-this.position.x  - this.width + other.position.x, 0),  // left
+            new Vector(0, other.position.y + other.height - this.position.y ), // down
+            new Vector(0, -this.position.y - this.height + other.position.y)    // up
+        };
+            
+        // sorts the array of vectors, using the Vector.compareTo method.
+        Arrays.sort( directions );
+            
+        // return the smallest vector in the sorted array.
+        return directions[0];
+    }
     
     
     

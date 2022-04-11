@@ -7,6 +7,9 @@ comment1.text=\r\n\ Vector\ Constructor;\ initializes\ vector\ to\ (x,\ y)\ \=\ 
 comment10.params=other
 comment10.target=boolean\ equals(Vector)
 comment10.text=\r\n\ Check\ if\ this\ vector\ is\ equal\ to\ another\ vector\:\r\n\ \ \ coordinates\ are\ within\ 0.0000001\ of\ each\ other.\r\n\ \ \ \r\n\ @param\ other\ other\ vector\ to\ check\ for\ equality\r\n\ @return\ true/false\ (whether\ vectors\ are\ equal)\r\n
+comment11.params=other
+comment11.target=int\ compareTo(Vector)
+comment11.text=\r\n\ Compares\ this\ vector\ to\ other\ vector\:\ by\ length.\r\n\ If\ this\ "<"\ other,\ return\ -1.\r\n\ If\ this\ "\="\ other,\ return\ \ 0.\r\n\ If\ this\ ">"\ other,\ return\ +1.\r\n\r\n\ @param\ other\ Vector\ to\ compare\ against\r\n\ @return\ -1,\ 0,\ +1\ based\ on\ comparison\ results.\r\n
 comment2.params=a\ b
 comment2.target=Vector(double,\ double)
 comment2.text=\r\n\ Vector\ Constructor;\ initializes\ vector\ to\ (x,\ y)\ \=\ (a,\ b).\r\n\r\n\ @param\ a\ initial\ x\ value\r\n\ @param\ b\ initial\ y\ value\r\n
@@ -31,4 +34,4 @@ comment8.text=\r\n\ Change\ the\ angle\ of\ this\ vector,\r\n\ \ \ while\ keepin
 comment9.params=a\ b
 comment9.target=void\ addValues(double,\ double)
 comment9.text=\r\n\ Add\ the\ values\ (a,\ b)\ to\ the\ current\ position\ (x,\ y).\r\n\r\n\ @param\ a\ the\ value\ to\ add\ to\ x\r\n\ @param\ b\ the\ value\ to\ add\ to\ y\r\n
-numComments=11
+numComments=12

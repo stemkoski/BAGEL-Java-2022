@@ -6,7 +6,7 @@ package bagel;
  * @author Stemkoski
  * @version 1.0
  */
-public class Vector
+public class Vector implements Comparable<Vector> 
 {
     public double x;
 
@@ -145,6 +145,34 @@ public class Vector
         return (dx < 0.0000001 && dy < 0.0000001);
         
     }
+    
+    /**
+     * Compares this vector to other vector: by length.
+     * If this "<" other, return -1.
+     * If this "=" other, return  0.
+     * If this ">" other, return +1.
+     *
+     * @param other Vector to compare against
+     * @return -1, 0, +1 based on comparison results.
+     */
+    public int compareTo(Vector other)
+    {
+        if ( this.getLength() < other.getLength() )
+            return -1;
+        else if ( this.getLength() == other.getLength() )
+            return 0;
+        else
+            return 1;
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
 }

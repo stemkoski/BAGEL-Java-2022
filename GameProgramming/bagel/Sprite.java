@@ -312,5 +312,29 @@ public class Sprite
         setAngle( otherSprite.angle );
     }
     
+    /**
+     * Move this sprite by the minimum amount so that it no longer overlaps other sprite.
+     *
+     * @param other Represents the solid sprite.
+     */
+    public void preventOverlap(Sprite other)
+    {
+        // double check this sprite does overlap other
+        if ( this.overlap(other) )
+        {
+            // get minimum translation vector
+            Vector mtv = this.size.getMinimumTranslationVector( other.size );
+            
+            this.moveBy( mtv.x, mtv.y );
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
+    
     
 }
