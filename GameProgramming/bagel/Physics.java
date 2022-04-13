@@ -122,6 +122,25 @@ public class Physics
         acceleration.setValues(0, 0);
     }
     
+    /**
+     * Change the angle of motion of this object, assuming it has collided
+     *  with a solid object, the solid object is at an angle of surfaceAngleDegrees.
+     *
+     * @param surfaceAngleDegrees angle of solid object
+     */
+    public void bounceAgainst(double surfaceAngleDegrees)
+    {
+        double collisionAngle = this.getMotionAngle() - surfaceAngleDegrees; // A
+        double newMotionAngle = surfaceAngleDegrees - collisionAngle;
+        this.setMotionAngle( newMotionAngle );
+    }
+    
+    
+    
+    
+    
+    
+    
     
     
     

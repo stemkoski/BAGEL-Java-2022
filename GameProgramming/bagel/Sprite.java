@@ -329,7 +329,27 @@ public class Sprite
         }
     }
     
-    
+    /**
+     * Check if this object overlaps other object; if so, change the angle of motion
+     *   of this object so that it appears to bounce off other object.
+     *
+     * @param other sprite to bounce off of
+     */
+    public void bounceAgainst(Sprite other)
+    {
+        // bouncing only happens if objects overlap
+        if ( this.overlap(other) )
+        {
+            Vector mtv = this.size.getMinimumTranslationVector( other.size );
+            // move this object so there is no longer overlap
+            this.moveBy( mtv.x, mtv.y );
+            
+            // the angle of the solid surface is 90 degrees from mtv vector
+            double surfaceAngle = mtv.getAngle() + 90;
+            // adjust motion angle
+            this.physics.bounceAgainst(surfaceAngle);
+        }
+    }
     
     
     

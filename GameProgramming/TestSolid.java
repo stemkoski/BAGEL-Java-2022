@@ -38,7 +38,7 @@ public class TestSolid extends Game
             turtle.moveBy(0, -1);
         if ( input.isKeyPressing("S") )
             turtle.moveBy(0, 1);
-            
+        
         // make the starfish "solid"
         // turtle.preventOverlap(starfish);
         
