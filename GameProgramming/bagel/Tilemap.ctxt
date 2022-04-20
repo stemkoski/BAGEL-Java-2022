@@ -1,0 +1,17 @@
+#BlueJ class context
+comment0.target=Tilemap
+comment0.text=\r\n\ Create\ levels\ from\ tile\ sets\ (image\ containing\ smaller\ rectangular\ images)\r\n\r\n
+comment1.params=imageFileName\ imageRows\ imageColumns
+comment1.target=Tilemap(java.lang.String,\ int,\ int)
+comment2.params=mapDataRows\ mapSymbolArray\ regionIndexArray
+comment2.target=void\ loadMapData(java.lang.String[],\ java.lang.String[],\ int[])
+comment2.text=\r\n\ Each\ map\ is\ represented\ by\ an\ array\ of\ Strings,\ one\ for\ each\ row.\r\n\ Example\:\ mapDataRows\ \=\ {\ "WWWWWW",\r\n\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "W....W",\r\n\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "W.W..W",\r\n\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "W.WC.W",\r\n\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "WP...W",\r\n\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "WWWWWW"\ \ }\r\n\ \ \ \ \ \ \ \ \ \ mapSymbolArray\ \ \ \=\ {\ "W",\ "C",\ "P"\ }\r\n\ \ \ \ \ \ \ \ \ \ regionIndexArray\ \=\ {\ \ 6\ ,\ \ 2\ ,\ \ 11\ }\r\n\ @param\ mapDataRows\ contains\ layout\ of\ tiles,\ each\ string\ is\ one\ row\r\n\ @param\ mapSymbolArray\ characters\ in\ mapDataRows\ that\ correspond\ to\ tiles\ \r\n\ @param\ regionIndexArray\ corresponding\ region\ index\ for\ each\ map\ symbol\r\n\ \r\n\ For\ convenience\:\ also\ split\ String[]\ \ \ mapDataRows\ \r\n\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ into\ 2D\ array\ String[][]\ mapDataGrid\r\n\ \r\n
+comment3.params=width\ height
+comment3.target=void\ setTileSize(int,\ int)
+comment3.text=\r\n\ Sets\ how\ large\ each\ individual\ tile\ should\ be\ drawn\ on\ the\ screen.\r\n\r\n\ @param\ width\ width\ of\ each\ tile\r\n\ @param\ height\ height\ of\ each\ tile\r\n
+comment4.params=symbol
+comment4.target=java.util.ArrayList\ getSymbolPositionList(java.lang.String)
+comment4.text=\r\n\ Get\ a\ list\ of\ Vectors\ that\ correspond\ to\ positions\ (top-left\ x,y)\ where\r\n\ \ \ a\ certain\ character\ appears\ in\ the\ tilemap.\ Useful\ for\ placing\ Sprites.\r\n\r\n\ @param\ symbol\ the\ character\ in\ the\ map\ we\ are\ looking\ for\r\n\ @return\ a\ list\ of\ positions\ where\ that\ character\ appears\r\n
+comment5.params=context
+comment5.target=void\ draw(javafx.scene.canvas.GraphicsContext)
+numComments=6

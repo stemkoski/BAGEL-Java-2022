@@ -19,20 +19,24 @@ public class Tilemap extends Sprite
     public String[][] mapDataGrid;
     // used in draw function
     public String[] mapSymbolArray;
-    public int[] tileIndexArray;
+    public int[] regionIndexArray;
 
-    public Tilemap(String imageFileName, int rows, int columns)
+    public int tileWidth;
+    public int tileHeight;
+    
+
+    public Tilemap(String imageFileName, int imageRows, int imageColumns)
     {
         tilesetTexture = new Texture(imageFileName);
         
         regionList = new ArrayList<Rectangle>();
         // calculate size of smaller images
-        double smallWidth  = tilesetTexture.image.getWidth() / columns;
-        double smallHeight = tilesetTexture.image.getHeight() / rows;
+        double smallWidth  = tilesetTexture.image.getWidth() / imageColumns;
+        double smallHeight = tilesetTexture.image.getHeight() / imageRows;
         
-        for (int rowNum = 0; rowNum < rows; rowNum++)
+        for (int rowNum = 0; rowNum < imageRows; rowNum++)
         {
-            for (int columnNum = 0; columnNum < columns; columnNum++)
+            for (int columnNum = 0; columnNum < imageColumns; columnNum++)
             {
                 // coordinates of top-left corner of small image
                 double smallX = columnNum * smallWidth;
@@ -69,7 +73,60 @@ public class Tilemap extends Sprite
         System.out.println("loading map data with " + rows + " rows "
                                     + " and " + columns + " columns " );
         mapDataGrid = new String[columns][rows];
+
+        // storing method variables in this class variables.
+        this.mapSymbolArray = mapSymbolArray;
+        this.regionIndexArray = regionIndexArray;
+        
+        for (int y = 0; y < rows; y++)
+        {
+            for (int x = 0; x < columns; x++)
+            {
+                mapDataGrid[x][y] = mapDataRows[y].substring(x, x + 1);
+            }
+        }
     }
+    
+    /**
+     * Sets how large each individual tile should be drawn on the screen.
+     *
+     * @param width width of each tile
+     * @param height height of each tile
+     */
+    public void setTileSize(int width, int height)
+    {
+        tileWidth = width;
+        tileHeight = height;
+    }
+    
+    
+    /**
+     * Get a list of Vectors that correspond to positions (top-left x,y) where
+     *   a certain character appears in the tilemap. Useful for placing Sprites.
+     *
+     * @param symbol the character in the map we are looking for
+     * @return a list of positions where that character appears
+     */
+    public ArrayList<Vector> getSymbolPositionList(String symbol)
+    {
+        ArrayList<Vector> positionList = new ArrayList<Vector>();
+        
+        for (int x = 0; x < columns; x++)
+        {
+            for (int y = 0; y < rows; y++)
+            {
+                if ( mapDataGrid[x][y].equals(symbol) )
+                {
+                    Vector position = new Vector(x * tileWidth, y * tileHeight);
+                    positionList.add(position);
+                }
+            }
+        }
+        
+        return positionList;
+    }
+    
+    
     
     public void draw(GraphicsContext context)
     {
@@ -79,24 +136,32 @@ public class Tilemap extends Sprite
              {
                  for (int y = 0; y < rows; y++)
                  {
-                     // TODO: drawImage corresponding to tile
+                     // drawImage corresponding to tile
                      String tileSymbol = mapDataGrid[x][y];
                      // find index corresponding to symbol
                      int index = -1;
                      for (int i = 0; i < mapSymbolArray.length; i++)
                      {
                          if ( mapSymbolArray[i].equals(tileSymbol) )
-                             index = i;
+                             index = regionIndexArray[i];
                      }
+
                      // if symbol does not occur in symbol array,
                      //   nothing to draw; continue to next symbol in array
                      if (index == -1)
                          continue;
+                         
+                         
+                     // reset any transformations set by sprites
+                     context.setTransform(1,0, 0,1, 0,0);
+                         
                      // use region "i" to draw region of image tilesetTexture
                      Rectangle region = regionList.get(index);
-                     context.drawImage(tilesetTexture,
-                        x, y, w, h,
-                        x, y, w, h ); // TODO: finish next time.
+                     //                    [source/image]   [destination/canvas]
+                     // drawImage( image,  x, y, w, h,      x, y, w, h  )
+                     context.drawImage(tilesetTexture.image,
+                        region.position.x, region.position.y, region.width, region.height,
+                        x * tileWidth, y * tileHeight, tileWidth, tileHeight ); 
                  }
              }
             
