@@ -24,6 +24,9 @@ public class Tilemap extends Sprite
     public int tileWidth;
     public int tileHeight;
     
+    // used in preventOverlap function
+    public String[] solidSymbolArray;
+    
 
     public Tilemap(String imageFileName, int imageRows, int imageColumns)
     {
@@ -83,6 +86,52 @@ public class Tilemap extends Sprite
             for (int x = 0; x < columns; x++)
             {
                 mapDataGrid[x][y] = mapDataRows[y].substring(x, x + 1);
+            }
+        }
+    }
+    
+    
+    /**
+     * Set the array of symbols corresponding to tiles that should be considered "solid".
+     *
+     * @param solidSymbolArray an array of symbols/characters
+     */
+    public void loadSolidData(String[] solidSymbolArray)
+    {
+        this.solidSymbolArray = solidSymbolArray;
+    }
+    
+    /**
+     * Change position of "other" sprite so that it does not
+     *  overlap with any of the tiles designated as "solid" 
+     *  by the "loadSolidData" method.
+     *
+     * @param other a sprite whose position may be adjusted.
+     */
+    public void preventOverlap(Sprite other)
+    {
+        // check every tile in mapDataGrid
+        for (int x = 0; x < columns; x++)
+        {
+            for (int y = 0; y < rows; y++)
+            {
+                String tileSymbol = mapDataGrid[x][y];
+                // is that symbol in the array of solid symbols?
+                for (int i = 0; i < solidSymbolArray.length; i++)
+                {
+                    String solidSymbol = solidSymbolArray[i];
+                    if (tileSymbol.equals(solidSymbol))
+                    {
+                        Rectangle solidRect = new Rectangle(
+                            x * tileWidth, y * tileHeight, tileWidth, tileHeight );
+                        if (other.size.overlap(solidRect))
+                        {
+                            // move other sprite away using the M.T.V.
+                            Vector mtv = other.size.getMinimumTranslationVector(solidRect);
+                            other.moveBy( mtv.x, mtv.y );
+                        }
+                    }
+                }
             }
         }
     }
