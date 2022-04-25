@@ -13,30 +13,46 @@ public class TestTilemap extends Game
     public Animation playerEast;
     public Animation playerWest;
     
+    public Sprite blueLock;
+    public Sprite blueKey;
+    
     public void initialize()
     {
         createGroup("main");
         
-        this.setScreenSize(655, 675);
+        this.setScreenSize(960 + 15, 960 + 25);
         map = new Tilemap("images/tileset.png", 4, 4);
         
-        String[] mapDataRows = { "WWWWWWWWWW",
-                                 "W...W....W",
-                                 "W.P.W..W.W",
-                                 "W...WWWW.W",
-                                 "W....C...W",
-                                 "W......WWW",
-                                 "W..C.....W",
-                                 "WWWW..C..W",
-                                 "W........W",
-                                 "WWWWWWWWWW" };
+        
+        // 1 = Blue Key, A = Blue Lock
+        
+        String[] mapDataRows = { "WWWWWWWWWWWWWWWWWWWW",
+                                 "W...W..A...........W",
+                                 "W.P.W..W...........W",
+                                 "W...WWWW...........W",
+                                 "W..................W",
+                                 "W....1...........WWW",
+                                 "W..................W",
+                                 "WWWW...............W",
+                                 "W..................W",
+                                 "W..................W",
+                                 "W..................W",
+                                 "W..................W",
+                                 "W..................W",
+                                 "W..................W",
+                                 "W..................W",
+                                 "W..................W",
+                                 "W..................W",
+                                 "W..................W",
+                                 "W..................W",
+                                 "WWWWWWWWWWWWWWWWWWWW" };
                                  
         // Note: also place floor tile underneath turtle and starfish.
-        String[] mapSymbolArray = { "W", ".", "P", "C" };
-        int[]    regionIndexArray = { 6, 15, 15, 15 };
+        String[] mapSymbolArray = { "W", ".", "P", "1", "A"};
+        int[]    regionIndexArray = { 6, 15, 15, 15, 15 };
         
         map.loadMapData(mapDataRows, mapSymbolArray, regionIndexArray );
-        map.setTileSize(64, 64);
+        map.setTileSize(48, 48);
 
         // adding solid data to map (so player can't pass through walls)
         String[] solidSymbolArray = { "W" };
@@ -55,7 +71,7 @@ public class TestTilemap extends Game
         playerWest  = new Animation("images/player-west.png",  1, 4, 0.2, true);
         player.setAnimation(playerSouth);
 
-        player.setSize(48,48);
+        player.setSize(40, 40);
         
         ArrayList<Vector> playerPositionList = map.getSymbolPositionList("P");
         Vector position = playerPositionList.get(0);
@@ -63,20 +79,15 @@ public class TestTilemap extends Game
         
         addSpriteToGroup(player, "main");
         
-        createGroup( "crate" );
-        // add pushable crate objects to game
-        Texture crateTexture = new Texture("images/crate.png");
-        // get crate positions (also number of crates)
-        ArrayList<Vector> cratePositionList = map.getSymbolPositionList("C");
-        for (int i = 0; i < cratePositionList.size(); i++)
-        {
-            Vector pos = cratePositionList.get(i);
-            Sprite crate = new Sprite();
-            crate.setTexture( crateTexture );
-            crate.setSize( 64, 64 );
-            crate.setPosition( pos.x, pos.y );
-            addSpriteToGroup( crate, "crate" );
-        }
+        blueKey = new Sprite();
+        blueKey.setTexture( new Texture("images/key-blue.png") );
+        blueKey.setSize( 48, 48 );
+        position = map.getSymbolPositionList("1").get(0);
+        blueKey.setPosition( position.x, position.y );
+        addSpriteToGroup(blueKey, "main");
+        
+        
+        
     }
     
     public void update()
@@ -100,7 +111,11 @@ public class TestTilemap extends Game
         {
             player.moveBy( 2, 0);
             player.setAnimation( playerEast );
-        }    
+        }  
+        
+        // sto pplayer from using size stored in other animations
+        player.setSize(40, 40);
+        
         // stop overlap between tiles of map and turtle
         map.preventOverlap( player );
     }
