@@ -1,4 +1,5 @@
 import bagel.*;
+import javafx.scene.paint.Color;
 
 public class Adventure extends Game
 {
@@ -10,6 +11,9 @@ public class Adventure extends Game
    public Animation playerEast;
    public Animation playerWest;
    
+   public int health; 
+   public Label healthLabel;
+   
    public void initialize()
    {
        setScreenSize(960 + 15, 960 + 25);
@@ -19,13 +23,13 @@ public class Adventure extends Game
        String[] mapDataRows = {"ABBBBBBBBBBBBBBBBBBC",
                                "D.:................F",
                                "D....;.............F",
-                               "D...............;..F",
-                               "D........,.........F",
-                               "D.,................F",
-                               "D......:...........F",
-                               "D.............:....F",
-                               "D:.....,...........F",
-                               "D..................F",
+                               "D..ABBBBBC......;..F",
+                               "D..D.....F.........F",
+                               "D.,D.....M.........F",
+                               "D..D...:...........F",
+                               "D..D.....J....:....F",
+                               "D:.D...,.F.........F",
+                               "D..GHK.LHI.........F",
                                "D......:........;..F",
                                "D.,........,.....,.F",
                                "D..................F",
@@ -61,6 +65,24 @@ public class Adventure extends Game
        Vector playerPosition = map.getSymbolPositionList("P").get(0);
        player.setPosition( playerPosition.x, playerPosition.y );
        addSpriteToGroup( player, "main" );
+    
+       
+       // create an enemy
+       createGroup("enemy");
+       Sprite enemy = new Sprite();
+       enemy.setTexture( new Texture("images/enemy-righter.png") );
+       enemy.setSize( 60, 60 );
+       enemy.setPosition( 600, 400 );
+       addSpriteToGroup(enemy, "enemy");
+       
+       // health stuff
+       health = 5;
+       healthLabel = new Label();
+       healthLabel.fontColor = Color.WHITE;
+       healthLabel.setText( "Health: " + health );
+       healthLabel.setPosition( 20, 50 );
+       addSpriteToGroup( healthLabel, "main" );
+       
    }
    
    public void update()
@@ -90,6 +112,22 @@ public class Adventure extends Game
        
        // prevent overlap with solid map tiles and player
        map.preventOverlap( player );
+       
+       for (Sprite enemy : getGroupSpriteList("enemy") )
+       {
+           // also check that player is *not* currently flashing;
+           //  in other words: player should have *no* actions currently in process.
+           int playerActionCount = player.actionList.size();
+           
+           if ( player.overlap(enemy) && playerActionCount == 0 )
+           {
+               health -= 1;
+               healthLabel.setText("Health: " + health);
+               player.addAction( Action.flashRepeat(10) );
+           }
+       }
+       
+       
    }
    
    public static void main(String[] args)

@@ -268,4 +268,46 @@ public class Action
         return new Action(func);
     }
 
+    public static Action setOpacity(double opacity)
+    {
+        Function func = new Function()
+        {
+            public boolean run(Sprite target, double deltaTime, double totalTime)
+            {
+                target.opacity = opacity;
+                return true;
+            }
+        };
+        return new Action(func);
+    }
+    
+    /**
+     * This action should set opacity to 0.50, wait (delay), set opacity back to 1.00, wait (delay)
+     *
+     * @return The return value
+     */
+    public static Action flashOnce()
+    {
+          Action[] actionArray = { Action.setOpacity(0.50), Action.delay(0.1), 
+                                   Action.setOpacity(1.00), Action.delay(0.1)  };
+          return Action.sequence( actionArray );
+    }
+    
+    /**
+     * Creates an action that contains a sequence of flashOnce actions.
+     *
+     * @param repeatNum how many times the sprite should flash
+     * @return The return value
+     */
+    public static Action flashRepeat(int repeatNum)
+    {
+        Action[] actionArray = new Action[repeatNum];
+        for (int i = 0; i < repeatNum; i++)
+        {
+            actionArray[i] = Action.flashOnce();
+        }
+        return Action.sequence( actionArray );
+    }
+    
+    
 }

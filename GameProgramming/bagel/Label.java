@@ -86,6 +86,9 @@ public class Label extends Sprite
             // undo any transforms set by drawing previous sprites.
             context.setTransform( 1,0, 0,1, 0,0 );
             
+            // set transparency level ("alpha") used when drawing image
+            context.setGlobalAlpha(opacity);
+            
             // tell context which font to use when drawing text
             context.setFont( font );
 

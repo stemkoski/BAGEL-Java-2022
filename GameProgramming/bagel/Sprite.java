@@ -19,6 +19,12 @@ public class Sprite
     
     public Physics physics;
 
+    // opacity / transparency of sprite: number in range 0 ... 1. 
+    // 1 = fully opaque = can't see through it at all
+    // 0 = fully transparenct = object appears completely invisible
+    // between 0 and 1: partially see-through.
+    public double opacity;
+    
     // angle of rotation of the sprite
     public double angle;
     
@@ -42,6 +48,8 @@ public class Sprite
         // by default, all sprites are visible
         visible = true;
         
+        opacity = 1;
+        
         angle = 0;
         actionList = new ArrayList<Action>();
         // do NOT destroy this sprite right away
@@ -62,6 +70,8 @@ public class Sprite
         size.position = position;
         // by default, all sprites are visible
         visible = true;
+        
+        opacity = 1;
         
         angle = 0;
         actionList = new ArrayList<Action>();
@@ -172,6 +182,9 @@ public class Sprite
             context.setTransform(  Math.cos(A), Math.sin(A),
                                   -Math.sin(A), Math.cos(A),
                                     position.x + size.width/2, position.y + size.height/2 );
+                                    
+            // set transparency level ("alpha") used when drawing image
+            context.setGlobalAlpha(opacity);
                                     
             //                   [region of image]      [position on canvas]
             // drawImage( image, x, y, width, height,  x, y, width, height );

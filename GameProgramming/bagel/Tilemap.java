@@ -181,6 +181,9 @@ public class Tilemap extends Sprite
     {
         if (visible)
         {
+            // set transparency level ("alpha") used when drawing image
+            context.setGlobalAlpha(opacity);
+            
              for (int x = 0; x < columns; x++)
              {
                  for (int y = 0; y < rows; y++)
