@@ -23,6 +23,10 @@ public class Adventure extends Game
     // not affected by solids; move randomly
     public Sprite flyingRandom;
 
+    // store current player direction angle
+    //  for use in shooting arrows.
+    
+    public int playerDirection;
 
     public void initialize()
     {
@@ -30,30 +34,37 @@ public class Adventure extends Game
 
         map = new Tilemap("images/adventure-tileset.png", 5, 8);
 
+        // f = flyingRandom enemy location
+        // g = groundTracker enemy location
+        // R = rocks (solid; provide protection from tracking enemies)
+        
         String[] mapDataRows = {"ABBBBBBBBBBBBBBBBBBC",
-                "D.:................F",
+                "D.:............g...F",
                 "D....;.............F",
-                "D..ABBBBBC......;..F",
+                "Dg.ABBBBBC..f...;..F",
                 "D..D.....F.........F",
                 "D.,D.....M.........F",
-                "D..D...:...........F",
+                "D..D..P:......R....F",
                 "D..D.....J....:....F",
                 "D:.D...,.F.........F",
                 "D..GHK.LHI.........F",
-                "D......:........;..F",
+                "D......:....f..R;..F",
                 "D.,........,.....,.F",
-                "D..................F",
+                "D..f....R........f.F",
                 "D..............,...F",
-                "D.....,............F",
-                "D..........,.......F",
-                "D..:......P........F",
+                "D.R...,.....f......F",
+                "D..........,R......F",
+                "D..:g...........g..F",
                 "D..............;...F",
                 "D..................F",
                 "GHHHHHHHHHHHHHHHHHHI" };
 
-        String[] mapSymbolArray = { ".", ",", ":", ";", "A", "B", "C", "D", "E", "F",
-                "G", "H", "I", "P", "J", "K", "L", "M" };
-        int[]    regionIndexArray = { 19, 25, 26, 32, 5, 6, 7, 13, 14, 15, 21, 22, 23, 19, 36, 37, 38, 39 };
+        String[] mapSymbolArray = { ".", ",", ":", ";", 
+                                    "A", "B", "C", "D", "E", "F", "G", "H", "I", "P", 
+                                      "J", "K", "L", "M", "f", "g", "R" };
+        int[]    regionIndexArray = { 19, 25, 26, 32, 
+                                      5, 6, 7, 13, 14, 15, 21, 22, 23, 19, 
+                                      36, 37, 38, 39, 19, 19, 19 };
 
         map.loadMapData( mapDataRows, mapSymbolArray, regionIndexArray );
         map.setTileSize( 48, 48 );
@@ -76,14 +87,24 @@ public class Adventure extends Game
         player.setPosition( playerPosition.x, playerPosition.y );
         addSpriteToGroup( player, "main" );
 
-        // create an enemy
-        createGroup("enemy");
-        Sprite enemy = new Sprite();
-        enemy.setTexture( new Texture("images/enemy-righter.png") );
-        enemy.setSize( 60, 60 );
-        enemy.setPosition( 600, 400 );
-        addSpriteToGroup(enemy, "enemy");
+        playerDirection = 90;
+        
+        // create enemy groups; different groups for different behavior
+        createGroup("enemy-ground");
+        createGroup("enemy-flying");
 
+        for (Vector position : map.getSymbolPositionList("f"))
+        {
+            Sprite enemy = new Sprite();
+            Animation enemyAnim = new Animation("images/enemy-flyer.png", 1, 4, 0.1, true);
+            enemy.setAnimation( enemyAnim );
+            enemy.setSize(50, 40);
+            enemy.setPosition( position.x, position.y );
+            enemy.setPhysics( new Physics(0, 100, 0) );
+            enemy.physics.setSpeed(100);
+            addSpriteToGroup( enemy, "enemy-flying" );
+        }
+        
         // health stuff
         health = 5;
         healthLabel = new Label();
@@ -91,7 +112,9 @@ public class Adventure extends Game
         healthLabel.setText( "Health: " + health );
         healthLabel.setPosition( 20, 50 );
         addSpriteToGroup( healthLabel, "main" );
-
+        
+        createGroup("arrow");
+        /*
         // enemies
         flyingTracker = new Sprite();
         flyingTracker.setTexture( new Texture("images/plane-red.png") );
@@ -119,7 +142,7 @@ public class Adventure extends Game
 
         Action[] actionArray = { Action.delay(1), Action.rotateBy(45, 1) };
         flyingRandom.addAction( Action.sequence( actionArray ) );
-        
+        */
 
     }
     public void update()
@@ -128,28 +151,33 @@ public class Adventure extends Game
         {
             player.setAnimation( playerNorth );
             player.moveBy( 0, -2 );
+            playerDirection = 270;
         }
         if ( input.isKeyPressing("S") )
         {
             player.setAnimation( playerSouth );
             player.moveBy( 0,  2 );
+            playerDirection = 90;
         }
         if ( input.isKeyPressing("A") )
         {
             player.setAnimation( playerWest );
             player.moveBy( -2, 0 );
+            playerDirection = 180;
         }
         if ( input.isKeyPressing("D") )
         {
             player.setAnimation( playerEast );
             player.moveBy( 2, 0 );
+            playerDirection = 0;
         }
 
         player.setSize(40, 40);
 
         // prevent overlap with solid map tiles and player
         map.preventOverlap( player );
-
+        
+        /*
         for (Sprite enemy : getGroupSpriteList("enemy") )
         {
             // also check that player is *not* currently flashing;
@@ -163,7 +191,9 @@ public class Adventure extends Game
                 player.addAction( Action.flashRepeat(10) );
             }
         }
+        */
 
+        /*
         // enemy movement code
         Vector vectorToPlayer = new Vector();
         vectorToPlayer.x = player.position.x - flyingTracker.position.x;
@@ -191,6 +221,49 @@ public class Adventure extends Game
             flyingRandom.addAction( Action.sequence( actionArray ) );
         }
         flyingRandom.wrap(975, 985);
+        */
+       
+        for (Sprite enemy : getGroupSpriteList("enemy-flying"))
+        {
+            if (enemy.actionList.size() == 0)
+            {
+                double delayTime = Math.random() + 0.5;
+                double angle = 360 * Math.random() - 180;
+                Action[] actionArray = { Action.delay(delayTime), Action.rotateBy(angle, 0.5) };
+                enemy.addAction( Action.sequence( actionArray ) );
+            }
+            
+            // things that need to happen during every frame
+            enemy.physics.setMotionAngle(enemy.angle);
+            enemy.wrap( 975, 985 );
+            
+            // check for player damage
+            int playerActionCount = player.actionList.size();
+            if (player.overlap(enemy) && playerActionCount == 0)
+            {
+                health -= 1;
+                healthLabel.setText("Health: " + health);
+                player.addAction( Action.flashRepeat(10) );
+            }
+        }
+       
+        if (input.isKeyPressed("SPACE"))
+        {
+            Sprite arrow = new Sprite();
+            arrow.setTexture( new Texture("images/arrow.png") );
+            arrow.setSize( 30, 15 );
+            arrow.alignToSprite(player);
+            arrow.setPhysics( new Physics(0, 300, 0) );
+            arrow.physics.setSpeed(300);
+            arrow.physics.setMotionAngle(playerDirection);
+            arrow.angle = playerDirection;
+            // arrows disappear after 2 seconds
+            Action[] actionArray = { Action.delay(2), Action.destroy() };
+            arrow.addAction( Action.sequence(actionArray) );
+            addSpriteToGroup(arrow, "arrow");
+        }
+       
+       
     }
 
     public static void main(String[] args)
