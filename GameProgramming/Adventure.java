@@ -13,19 +13,11 @@ public class Adventure extends Game
 
     public int health; 
     public Label healthLabel;
-
-    // enemies
-
-    // not affected by solids; follow player
-    public Sprite flyingTracker;
-    // affected by solids; follow player
-    public Sprite groundTracker;
-    // not affected by solids; move randomly
-    public Sprite flyingRandom;
-
+    public Sprite winMessage;
+    public Sprite loseMessage;
+    
     // store current player direction angle
     //  for use in shooting arrows.
-
     public int playerDirection;
 
     public void initialize()
@@ -39,24 +31,24 @@ public class Adventure extends Game
         // R = rocks (solid; provide protection from tracking enemies)
 
         String[] mapDataRows = {"ABBBBBBBBBBBBBBBBBBC",
-                "D.:..f.........g...F",
+                "Dg:..f.........g...F",
                 "D....;.............F",
-                "Dg.ABBBBBC..f...;..F",
-                "D..D.....F.........F",
-                "D.,D.....M.........F",
-                "D..D..P:......R....F",
-                "D..D.....J....:....F",
-                "D:.D...,.F.........F",
-                "D..GHK.LHI.........F",
-                "D......:..g.f..R;..F",
+                "D...R.......f...;..F",
+                "D......:...........F",
+                "D.,.......,,.....f.F",
+                "D.f....:......R....F",
+                "D....;........:....F",
+                "D:.....,...........F",
+                "D.........P........F",
+                "D.....R:....f..R;..F",
                 "D.,........,.....,.F",
                 "D..f....R........f.F",
                 "D..............,...F",
-                "D.R...,.....f......F",
+                "D.R...,.....f.....gF",
                 "D..........,R......F",
-                "D..:g...........g..F",
+                "D..:...............F",
                 "D........f.....;...F",
-                "D..................F",
+                "Dg..f............g.F",
                 "GHHHHHHHHHHHHHHHHHHI" };
 
         String[] mapSymbolArray = { ".", ",", ":", ";", 
@@ -69,7 +61,8 @@ public class Adventure extends Game
         map.loadMapData( mapDataRows, mapSymbolArray, regionIndexArray );
         map.setTileSize( 48, 48 );
 
-        String[] solidSymbolArray = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M" };
+        String[] solidSymbolArray = { "A", "B", "C", "D", "E", "F", "G", "H", "I", 
+                                      "J", "K", "L", "M" };
         map.loadSolidData( solidSymbolArray );
 
         createGroup( "main" );
@@ -122,58 +115,50 @@ public class Adventure extends Game
             enemy.setAnimation( enemyAnim );
             enemy.setSize(40, 40);
             enemy.setPosition(position.x, position.y);
-            enemy.setPhysics( new Physics(0, 90, 0) );
-            enemy.physics.setSpeed(90);
+            enemy.setPhysics( new Physics(0, 110, 0) );
+            enemy.physics.setSpeed(110);
             addSpriteToGroup( enemy, "enemy-ground" );
         }
         
 
+        
+
+        createGroup("arrow");
+    
+        // used for item (gain 1 health)
+        createGroup("heart");
+
+        
+        // used for messages
+        createGroup("label");
+        
         // health stuff
         health = 5;
         healthLabel = new Label();
         healthLabel.fontColor = Color.WHITE;
         healthLabel.setText( "Health: " + health );
         healthLabel.setPosition( 20, 50 );
-        addSpriteToGroup( healthLabel, "main" );
-
-        createGroup("arrow");
-        /*
-        // enemies
-        flyingTracker = new Sprite();
-        flyingTracker.setTexture( new Texture("images/plane-red.png") );
-        flyingTracker.setSize(60, 60);
-        flyingTracker.setPosition(800, 100);
-        flyingTracker.setPhysics( new Physics(0, 100, 0) );
-        flyingTracker.physics.setSpeed(75);
-        addSpriteToGroup(flyingTracker, "main");
-
-        groundTracker = new Sprite();
-        groundTracker.setTexture( new Texture("images/enemy.png") );
-        groundTracker.setSize(48, 48);
-        groundTracker.setPosition(100, 100);
-        groundTracker.setPhysics( new Physics(0, 50, 0) );
-        groundTracker.physics.setSpeed(50);
-        addSpriteToGroup(groundTracker, "main");
-
-        flyingRandom = new Sprite();
-        flyingRandom.setTexture( new Texture("images/spaceship.png") );
-        flyingRandom.setSize(60, 60);
-        flyingRandom.setPosition(400, 400);
-        flyingRandom.setPhysics( new Physics(0, 100, 0) );
-        flyingRandom.physics.setSpeed(100);
-        addSpriteToGroup(flyingRandom, "main");
-
-        Action[] actionArray = { Action.delay(1), Action.rotateBy(45, 1) };
-        flyingRandom.addAction( Action.sequence( actionArray ) );
-         */
-
-        // used for item (gain 1 health)
-        createGroup("heart");
-
+        addSpriteToGroup( healthLabel, "label" );
+        
+        winMessage = new Sprite();
+        winMessage.setTexture( new Texture("images/message-win.png") );
+        winMessage.setPosition(200, 400);
+        winMessage.visible = false;
+        addSpriteToGroup( winMessage, "label");
+        
+        loseMessage = new Sprite();
+        loseMessage.setTexture( new Texture("images/message-lose.png") );
+        loseMessage.setPosition(260, 400);
+        loseMessage.visible = false;
+        addSpriteToGroup( loseMessage, "label");
+        
     }
 
     public void update()
     {
+        if (winMessage.visible == true || loseMessage.visible == true)
+            return;
+        
         if ( input.isKeyPressing("W") )
         {
             player.setAnimation( playerNorth );
@@ -239,6 +224,15 @@ public class Adventure extends Game
                 {
                     enemy.preventOverlap(enemy2);
                 }
+            }
+            
+            // check for player damage
+            int playerActionCount = player.actionList.size();
+            if (player.overlap(enemy) && playerActionCount == 0)
+            {
+                health -= 1;
+                healthLabel.setText("Health: " + health);
+                player.addAction( Action.flashRepeat(10) );
             }
         }
         
@@ -361,7 +355,19 @@ public class Adventure extends Game
             }
         }
 
+        // win condition: no more enemies of either type left.
+        int flyingEnemyCount = getGroupSpriteCount("enemy-flying");
+        int groundEnemyCount = getGroupSpriteCount("enemy-ground");
+        if (flyingEnemyCount == 0 && groundEnemyCount == 0)
+            winMessage.visible = true;
        
+        // lose condition: health equals 0
+        if (health == 0)
+        {
+            player.destroy();
+            loseMessage.visible = true;
+        }
+            
     }
 
     public static void main(String[] args)
